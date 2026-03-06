@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.cognizant</groupId>
-    <artifactId>DisasterManagement</artifactId>
+    <artifactId>Pod3DisasterManagement</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>DisasterManagement</name>
     <description>DisasterManagement</description>
