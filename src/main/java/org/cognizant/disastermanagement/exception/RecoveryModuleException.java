@@ -1,4 +1,13 @@
 package org.cognizant.disastermanagement.exception;
+public class RecoveryModuleException extends RuntimeException {
+    private String errorCode;
 
-public class RecoveryModuleException {
+    public RecoveryModuleException(String message, String errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
 }
