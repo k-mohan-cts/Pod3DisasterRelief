@@ -1,53 +1,71 @@
 package org.cognizant.disastermanagement.entity;
 
+
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "resources")
 public class Resource {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resource_id")
     private int resourceId;
-    private int programId;
-    private String type;
-    private int quantity;
-    private String status;
 
-    public Resource() {}
+    // This defines the 'program_id' column in the database
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "program_id", nullable = false)
+    private RecoveryProgram recoveryProgram;
 
+    @Enumerated(EnumType.STRING)
+    private ResourceType type;
 
-    public int getResourceId() {
-        return resourceId;
-    }
+    private String name;
+    private double quantity;
+    private String unit;
 
-    public void setResourceId(int resourceId) {
-        this.resourceId = resourceId;
-    }
+    @Enumerated(EnumType.STRING)
+    private ResourceStatus status;
 
-    public int getProgramId() {
-        return programId;
-    }
+    @Column(name = "allocated_at")
+    private LocalDateTime allocatedAt;
 
-    public void setProgramId(int programId) {
-        this.programId = programId;
-    }
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-    public String getType() {
-        return type;
-    }
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public int getResourceId() { return resourceId; }
+    public void setResourceId(int resourceId) { this.resourceId = resourceId; }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public RecoveryProgram getRecoveryProgram() { return recoveryProgram; }
+    public void setRecoveryProgram(RecoveryProgram recoveryProgram) { this.recoveryProgram = recoveryProgram; }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    public ResourceType getType() { return type; }
+    public void setType(ResourceType type) { this.type = type; }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public double getQuantity() { return quantity; }
+    public void setQuantity(double quantity) { this.quantity = quantity; }
+
+    public String getUnit() { return unit; }
+    public void setUnit(String unit) { this.unit = unit; }
+
+    public ResourceStatus getStatus() { return status; }
+    public void setStatus(ResourceStatus status) { this.status = status; }
+
+    public LocalDateTime getAllocatedAt() { return allocatedAt; }
+    public void setAllocatedAt(LocalDateTime allocatedAt) { this.allocatedAt = allocatedAt; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

@@ -1,4 +1,7 @@
 package org.cognizant.disastermanagement.entity;
 
-public class RecoveryStatus {
+
+
+public enum RecoveryStatus {
+    PLANNING, ACTIVE, COMPLETED, ON_HOLD
 }

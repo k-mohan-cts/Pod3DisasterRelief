@@ -1,4 +1,7 @@
 package org.cognizant.disastermanagement.entity;
 
-public class ResourceStatus {
+
+
+public enum ResourceStatus {
+    AVAILABLE, ALLOCATED, IN_USE, EXHAUSTED
 }
