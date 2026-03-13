@@ -1,12 +1,10 @@
 package org.cognizant.disastermanagement.entity;
-
-
-
+import org.cognizant.disastermanagement.entity.enums.ResourceType;
+import org.cognizant.disastermanagement.entity.enums.ResourceStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "resources")
 public class Resource {
@@ -15,29 +13,21 @@ public class Resource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_id")
     private int resourceId;
-
-    // This defines the 'program_id' column in the database
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id", nullable = false)
     private RecoveryProgram recoveryProgram;
-
     @Enumerated(EnumType.STRING)
     private ResourceType type;
-
     private String name;
     private double quantity;
     private String unit;
-
     @Enumerated(EnumType.STRING)
     private ResourceStatus status;
-
     @Column(name = "allocated_at")
     private LocalDateTime allocatedAt;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
