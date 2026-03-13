@@ -1,4 +1,4 @@
-package org.cognizant.disastermanagement.entity.enum2;
+package org.cognizant.disastermanagement.Enum;
 
 public enum AuditStatus{
     Scheduled,InProgress,Completed,Cancelled;

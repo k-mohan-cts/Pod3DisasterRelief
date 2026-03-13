@@ -1,4 +1,5 @@
 package org.cognizant.disastermanagement.Enum;
 
-public class ComplainceType {
+public enum ComplainceType {
+    Emergency, Relief, Program;
 }
