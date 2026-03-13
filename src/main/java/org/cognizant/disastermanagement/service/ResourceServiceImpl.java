@@ -2,7 +2,7 @@ package org.cognizant.disastermanagement.service;
 
 import org.cognizant.disastermanagement.entity.RecoveryProgram;
 import org.cognizant.disastermanagement.entity.Resource;
-import org.cognizant.disastermanagement.entity.enums.ResourceStatus;
+import org.cognizant.disastermanagement.Enum.ResourceStatus;
 import org.cognizant.disastermanagement.dao.RecoveryProgramRepository;
 import org.cognizant.disastermanagement.dao.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

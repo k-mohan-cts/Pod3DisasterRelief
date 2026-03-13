@@ -1,5 +1,5 @@
 package org.cognizant.disastermanagement.entity;
-import org.cognizant.disastermanagement.entity.enums.RecoveryStatus;
+import org.cognizant.disastermanagement.Enum.RecoveryStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

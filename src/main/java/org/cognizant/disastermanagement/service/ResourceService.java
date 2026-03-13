@@ -1,9 +1,7 @@
-//package org.cognizant.disastermanagement.service;
-
 package org.cognizant.disastermanagement.service;
 
 import org.cognizant.disastermanagement.entity.Resource;
-import org.cognizant.disastermanagement.entity.enums.ResourceStatus;
+import org.cognizant.disastermanagement.Enum.ResourceStatus;
 import java.util.List;
 
 public interface ResourceService {

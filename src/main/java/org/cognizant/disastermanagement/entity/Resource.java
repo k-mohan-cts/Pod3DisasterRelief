@@ -1,6 +1,6 @@
 package org.cognizant.disastermanagement.entity;
-import org.cognizant.disastermanagement.entity.enums.ResourceType;
-import org.cognizant.disastermanagement.entity.enums.ResourceStatus;
+import org.cognizant.disastermanagement.Enum.ResourceType;
+import org.cognizant.disastermanagement.Enum.ResourceStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
