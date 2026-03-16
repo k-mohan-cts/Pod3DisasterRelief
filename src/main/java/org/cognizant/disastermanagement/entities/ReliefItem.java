@@ -18,7 +18,7 @@ public class ReliefItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ItemId",nullable=false, unique=true)
-    private int ItemId;
+    private Integer ItemId;
 
     @Column(nullable = false)
     private type Type;
@@ -27,10 +27,10 @@ public class ReliefItem {
     private String Name;
 
     @Column
-    private int Quantity;
+    private Integer Quantity;
 
     @Column
-    private int Unit;
+    private String Unit;
 
     @Column
     private reliefStatus Status;
@@ -43,7 +43,7 @@ public class ReliefItem {
 
     public ReliefItem(){}
 
-    public ReliefItem( int ItemId, type Type, String Name, int Quantity, int Unit, reliefStatus Status, LocalDateTime CreatedAt ,LocalDateTime UpdatedAt){
+    public ReliefItem( Integer ItemId, type Type, String Name, Integer Quantity, String Unit, reliefStatus Status, LocalDateTime CreatedAt ,LocalDateTime UpdatedAt){
         this.ItemId = ItemId;
         this.Type = Type;
         this.Name = Name;
@@ -55,11 +55,11 @@ public class ReliefItem {
     }
 
 
-    public int getItemId() {
+    public Integer getItemId() {
         return ItemId;
     }
 
-    public void setItemId(int itemId) {
+    public void setItemId(Integer itemId) {
         ItemId = itemId;
     }
 
@@ -79,19 +79,20 @@ public class ReliefItem {
         Name = name;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         Quantity = quantity;
     }
 
-    public int getUnit() {
+    public String getUnit() {
         return Unit;
     }
 
-    public void setUnit(int unit) {
+
+    public void setUnit(String unit) {
         Unit = unit;
     }
 

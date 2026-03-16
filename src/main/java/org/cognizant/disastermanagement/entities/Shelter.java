@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 enum shelterStatus {
-    Available,Moderate,Critical;
+    Open,Full,Closed,UnderMaintenance;
 }
 
 @Entity
@@ -23,10 +23,10 @@ public class Shelter {
     private String Location;
 
     @Column
-    private float Latitude;
+    private Double Latitude;
 
     @Column
-    private float Longitude;
+    private Double Longitude;
 
     @Column
     private int Capacity;
@@ -71,19 +71,19 @@ public class Shelter {
         Location = location;
     }
 
-    public float getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
-    public float getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
