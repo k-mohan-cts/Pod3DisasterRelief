@@ -1,10 +1,7 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.dao.EmergencyReportRequest ;
-import org.cognizant.disastermanagement.dao.EmergencyReportResponse ;
+import org.cognizant.disastermanagement.entity.EmergencyReport;
 import org.cognizant.disastermanagement.service.EmergencyReportService;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,37 +10,31 @@ import java.util.List;
 @RequestMapping("/api/reports")
 public class EmergencyReportController {
 
-    private final EmergencyReportService emergencyReportService;
+    private final EmergencyReportService service;
 
-    public EmergencyReportController(EmergencyReportService emergencyReportService) {
-        this.emergencyReportService = emergencyReportService;
+    public EmergencyReportController(EmergencyReportService service) {
+        this.service = service;
     }
 
-    // CREATE REPORT
     @PostMapping
-    public ResponseEntity<EmergencyReportResponse> createReport(@RequestBody EmergencyReportRequest request) {
-        EmergencyReportResponse response = emergencyReportService.createReport(request);
-        return ResponseEntity.ok(response);
+    public EmergencyReport create(@RequestBody EmergencyReport report) {
+        return service.create(report);
     }
 
-    // GET ALL REPORTS
     @GetMapping
-    public ResponseEntity<List<EmergencyReportResponse>> getAllReports() {
-        return ResponseEntity.ok(emergencyReportService.getAllReports());
+    public List<EmergencyReport> getAll() {
+        return service.getAll();
     }
 
-    // GET REPORT BY ID
-    @GetMapping("/{reportId}")
-    public ResponseEntity<EmergencyReportResponse> getById(@PathVariable Integer reportId) {
-        return ResponseEntity.ok(emergencyReportService.getReportById(reportId));
+    @GetMapping("/{id}")
+    public EmergencyReport getById(@PathVariable Long id) {
+        return service.getById(id);
     }
 
-    // UPDATE STATUS
-    @PutMapping("/{reportId}/status")
-    public ResponseEntity<EmergencyReportResponse> updateStatus(
-            @PathVariable Integer reportId,
-            @RequestParam String status
-    ) {
-        return ResponseEntity.ok(emergencyReportService.updateStatus(reportId, status));
+    @PutMapping("/{id}/status")
+    public EmergencyReport updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        return service.updateStatus(id, status);
     }
 }

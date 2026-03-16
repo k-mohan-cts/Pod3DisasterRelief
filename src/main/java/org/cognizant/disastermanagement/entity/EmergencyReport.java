@@ -1,53 +1,62 @@
 package org.cognizant.disastermanagement.entity;
-import org.cognizant.disastermanagement.enums.EmergencyType;
+
 import jakarta.persistence.*;
-import org.cognizant.disastermanagement.enums.ReportStatus;
+import org.cognizant.disastermanagement.Enum.EmergencyType;
+import org.cognizant.disastermanagement.Enum.IncidentStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Entity
 @Table(name = "EmergencyReport")
-
 public class EmergencyReport {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ReportID")
-    private Integer reportId;
+    private Long reportId;
 
-    // MANY Reports belong to ONE Citizen
-    @ManyToOne
-    @JoinColumn(name = "CitizenID", nullable = false)
-    private Citizen citizen;
+    private Long citizenId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Type", nullable = false)
-    private EmergencyType type;
-
-    @Column(name = "Location", nullable = false, length = 500)
+    private EmergencyType type; // Flood / Earthquake / Fire
     private String location;
 
-    private Double latitude;
-    private Double longitude;
-
-    @Column(name = "Date", nullable = false)
     private LocalDateTime date = LocalDateTime.now();
 
-    private String description;
+    private IncidentStatus status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Status", nullable = false)
-    private ReportStatus status = ReportStatus.Submitted;
+    public Long getReportId() {
+        return reportId;
+    }
 
-    @Column(name = "CreatedAt", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    public void setReportId(Long reportId) {
+        this.reportId = reportId;
+    }
 
-    @Column(name = "UpdatedAt", nullable = false)
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    public Long getCitizenId() {
+        return citizenId;
+    }
 
-    // ONE EmergencyReport can have MANY Incidents
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<Incident> incidents;
+    public void setCitizenId(Long citizenId) {
+        this.citizenId = citizenId;
+    }
+
+
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+
+    public void setStatus(String pending) {
+    }
 }

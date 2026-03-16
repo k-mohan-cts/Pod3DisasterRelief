@@ -1,17 +1,38 @@
 package org.cognizant.disastermanagement.service;
 
-import org.cognizant.disastermanagement.dao.IncidentRequest;
-import org.cognizant.disastermanagement.dao.IncidentResponse;
+import org.cognizant.disastermanagement.dao.IncidentRepository;
+import org.cognizant.disastermanagement.entity.Incident;
+import org.cognizant.disastermanagement.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface IncidentService {
+@Service
+public class IncidentService {
 
-    IncidentResponse createIncident(IncidentRequest request);
+    private final IncidentRepository repository;
 
-    List<IncidentResponse> getAllIncidents();
+    public IncidentService(IncidentRepository repository) {
+        this.repository = repository;
+    }
 
-    IncidentResponse getIncidentById(Integer incidentId);
+    public Incident create(Incident incident) {
+        incident.setStatus("Acknowledged");
+        return repository.save(incident);
+    }
 
-    IncidentResponse updateStatus(Integer incidentId, String status, String notes);
+    public List<Incident> getAll() {
+        return repository.findAll();
+    }
+
+    public Incident getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Incident not found: " + id));
+    }
+
+    public Incident updateStatus(Long id, String status) {
+        Incident incident = getById(id);
+        incident.setStatus(status);
+        return repository.save(incident);
+    }
 }

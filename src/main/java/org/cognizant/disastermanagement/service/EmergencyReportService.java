@@ -1,25 +1,37 @@
 package org.cognizant.disastermanagement.service;
 
-import org.cognizant.disastermanagement.dao.EmergencyReportRequest;
-import org.cognizant.disastermanagement.dao.EmergencyReportResponse;
-
-import java.util.ArrayList;
+import org.cognizant.disastermanagement.dao.EmergencyRepository;
+import org.cognizant.disastermanagement.entity.EmergencyReport;
+import org.cognizant.disastermanagement.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public class EmergencyReportService {
-    public EmergencyReportResponse createReport(EmergencyReportRequest request) {
-        return new EmergencyReportResponse();
+
+    private final EmergencyRepository repository;
+
+    public EmergencyReportService(EmergencyRepository repository) {
+        this.repository = repository;
     }
 
-    public List<EmergencyReportResponse> getAllReports() {
-        return new ArrayList<>();
+    public EmergencyReport create(EmergencyReport report) {
+        report.setStatus("Pending");
+        return repository.save(report);
     }
 
-    public EmergencyReportResponse getReportById(Integer reportId) {
-        return new EmergencyReportResponse();
+    public List<EmergencyReport> getAll() {
+        return repository.findAll();
     }
 
-    public EmergencyReportResponse updateStatus(Integer reportId, String status) {
-        return new EmergencyReportResponse();
+    public EmergencyReport getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Emergency Report not found: " + id));
+    }
+
+    public EmergencyReport updateStatus(Long id, String status) {
+        EmergencyReport report = getById(id);
+        report.setStatus(status);
+        return repository.save(report);
     }
 }

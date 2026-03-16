@@ -1,41 +1,73 @@
 package org.cognizant.disastermanagement.entity;
+
 import jakarta.persistence.*;
-import org.cognizant.disastermanagement.enums.ReportStatus;
+import org.cognizant.disastermanagement.Enum.IncidentStatus;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Incident")
-
 public class Incident {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IncidentID")
-    private Integer incidentId;
+    private Long incidentId;
 
-    // MANY Incidents belong to ONE EmergencyReport
-    @ManyToOne
-    @JoinColumn(name = "ReportID", nullable = false)
-    private EmergencyReport report;
+    public Long getReportId() {
+        return reportId;
+    }
 
-    // MANY incidents handled by ONE officer (User)
-    @ManyToOne
-    @JoinColumn(name = "OfficerID", nullable = false)
-    private User officer;
+    public void setReportId(Long reportId) {
+        this.reportId = reportId;
+    }
 
-    @Column(nullable = false)
+    public Long getIncidentId() {
+        return incidentId;
+    }
+
+    public void setIncidentId(Long incidentId) {
+        this.incidentId = incidentId;
+    }
+
+    public Long getOfficerId() {
+        return officerId;
+    }
+
+    public void setOfficerId(Long officerId) {
+        this.officerId = officerId;
+    }
+
+    public String getActions() {
+        return actions;
+    }
+
+    public void setActions(String actions) {
+        this.actions = actions;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+
+
+    private Long reportId;
+    private Long officerId;
+
+    @Column(length = 1000)
     private String actions;
 
-    @Column(nullable = false)
     private LocalDateTime date = LocalDateTime.now();
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ReportStatus status ;
+    private IncidentStatus status; // Acknowledged / InProgress / Completed
 
-    private String notes;
+    public void setStatus(String acknowledged) {
 
-    @Column(nullable = false)
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    }
+
+    // Getters & Setters
 }

@@ -1,5 +1,5 @@
 
-package org.cognizant.disastermanagement.enums;
+package org.cognizant.disastermanagement.Enum;
 
 public enum IncidentStatus {
     Open,
