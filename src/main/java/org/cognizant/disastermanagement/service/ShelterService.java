@@ -1,7 +1,7 @@
 package org.cognizant.disastermanagement.service; // Or your service package
 
 import org.cognizant.disastermanagement.dao.ShelterRepository;
-import org.cognizant.disastermanagement.entities.Shelter;
+import org.cognizant.disastermanagement.entity.Shelter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

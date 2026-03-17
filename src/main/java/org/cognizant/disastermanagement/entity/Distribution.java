@@ -1,4 +1,4 @@
-package org.cognizant.disastermanagement.entities;
+package org.cognizant.disastermanagement.entity;
 
 import jakarta.persistence.*;
 

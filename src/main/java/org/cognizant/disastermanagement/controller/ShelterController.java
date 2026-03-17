@@ -1,6 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.entities.Shelter;
+import org.cognizant.disastermanagement.entity.Shelter;
 import org.cognizant.disastermanagement.service.ShelterService; // Adjust package as needed
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

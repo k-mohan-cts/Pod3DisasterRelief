@@ -1,6 +1,6 @@
 package org.cognizant.disastermanagement.service;
 import org.cognizant.disastermanagement.dao.ReliefItemRepository;
-import org.cognizant.disastermanagement.entities.ReliefItem;
+import org.cognizant.disastermanagement.entity.ReliefItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

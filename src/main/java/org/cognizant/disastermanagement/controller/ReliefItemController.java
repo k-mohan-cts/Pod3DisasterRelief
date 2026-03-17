@@ -1,5 +1,5 @@
 package org.cognizant.disastermanagement.controller;
-import org.cognizant.disastermanagement.entities.ReliefItem;
+import org.cognizant.disastermanagement.entity.ReliefItem;
 import org.cognizant.disastermanagement.service.ReliefItemService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

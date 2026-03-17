@@ -1,6 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.entities.Distribution;
+import org.cognizant.disastermanagement.entity.Distribution;
 import org.cognizant.disastermanagement.service.DistributionService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
