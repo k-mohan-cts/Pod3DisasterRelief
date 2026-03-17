@@ -1,15 +1,11 @@
 package org.cognizant.disastermanagement.entities;
 
 import jakarta.persistence.*;
-import org.cognizant.disastermanagement.entities.reliefStatus;
+import org.cognizant.disastermanagement.Enum.reliefStatus;
+import org.cognizant.disastermanagement.Enum.type;
 
 import java.time.LocalDateTime;
 
-
-
-enum type{
-        Food,Medicine,Clothing,Water,Shelter_Kit,Other
-        }
 
 @Entity
 @Table(name="reliefitem")

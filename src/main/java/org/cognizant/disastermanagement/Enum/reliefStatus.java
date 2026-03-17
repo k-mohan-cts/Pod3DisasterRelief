@@ -1,4 +1,4 @@
-package org.cognizant.disastermanagement.entities;
+package org.cognizant.disastermanagement.Enum;
 
 enum reliefStatus {
     Available, Low, OutOfStock, Reserved

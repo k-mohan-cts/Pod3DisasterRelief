@@ -1,12 +1,9 @@
 package org.cognizant.disastermanagement.entities;
 
 import jakarta.persistence.*;
+import org.cognizant.disastermanagement.Enum.shelterStatus;
 
 import java.time.LocalDateTime;
-
-enum shelterStatus {
-    Open,Full,Closed,UnderMaintenance;
-}
 
 @Entity
 @Table(name="Shelter")
