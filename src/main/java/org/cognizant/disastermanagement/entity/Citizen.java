@@ -3,25 +3,45 @@ package org.cognizant.disastermanagement.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="Citizen")
 public class Citizen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CitizenID") // Matches your Workbench Primary Key
     private int citizenId;
 
     @OneToOne
-    @JoinColumn(name = "UserID")
+    @JoinColumn(name = "UserID", referencedColumnName = "UserID") // Explicitly links to UserID in both tables
     private User user;
 
+    @Column(name = "Name")
     private String name;
+
+    @Column(name = "DOB")
     private LocalDate dob;
+
+    @Column(name = "Gender")
     private String gender;
+
+    @Column(name = "Address")
     private String address;
+
+    @Column(name = "ContactInfo")
     private String contactInfo;
+
+    @Column(name = "Status")
     private String status;
+
+    @CreationTimestamp
+    @Column(name = "CreatedAt", updatable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "UpdatedAt")
     private LocalDateTime updatedAt;
 
     public Citizen() {}
