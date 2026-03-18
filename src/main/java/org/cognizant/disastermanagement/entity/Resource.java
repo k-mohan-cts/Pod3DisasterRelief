@@ -1,37 +1,44 @@
 package org.cognizant.disastermanagement.entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.cognizant.disastermanagement.Enum.ResourceType;
 import org.cognizant.disastermanagement.Enum.ResourceStatus;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "resources")
+@Table(name = "Resource")
 public class Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "resource_id")
+    @Column(name = "ResourceID")
     private int resourceId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id", nullable = false)
-    private RecoveryProgram recoveryProgram;
-    @Enumerated(EnumType.STRING)
-    private ResourceType type;
-    private String name;
-    private double quantity;
-    private String unit;
-    @Enumerated(EnumType.STRING)
-    private ResourceStatus status;
-    @Column(name = "allocated_at")
-    private LocalDateTime allocatedAt;
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ProgramID", nullable = false)
+    @JsonBackReference
+    private RecoveryProgram recoveryProgram;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Type", nullable = false)
+    private ResourceType type;
+
+    @Column(name = "Name", nullable = false)
+    private String name;
+
+    @Column(name = "Quantity")
+    private double quantity;
+
+    @Column(name = "Unit")
+    private String unit;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Status")
+    private ResourceStatus status;
+
+    public Resource() {}
+
+    // --- GETTERS AND SETTERS ---
     public int getResourceId() { return resourceId; }
     public void setResourceId(int resourceId) { this.resourceId = resourceId; }
 
@@ -52,10 +59,4 @@ public class Resource {
 
     public ResourceStatus getStatus() { return status; }
     public void setStatus(ResourceStatus status) { this.status = status; }
-
-    public LocalDateTime getAllocatedAt() { return allocatedAt; }
-    public void setAllocatedAt(LocalDateTime allocatedAt) { this.allocatedAt = allocatedAt; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
