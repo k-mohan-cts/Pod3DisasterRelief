@@ -1,7 +1,8 @@
 package org.cognizant.disastermanagement.Enum;
 
 public enum UserStatus {
-    Active,
-    Inactive,
-    Suspended
+
+    ACTIVE,    // Change from Active to ACTIVE
+    INACTIVE,  // Change from Inactive to INACTIVE
+    SUSPENDED
 }

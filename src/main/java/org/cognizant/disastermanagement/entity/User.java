@@ -6,6 +6,7 @@ import org.cognizant.disastermanagement.Enum.Role;
 import org.cognizant.disastermanagement.Enum.UserStatus;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "User")
@@ -13,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UserID") // Matches your Workbench Primary Key
+    @Column(name = "UserID")
     private int userId;
 
     @Column(name = "Name", nullable = false)
@@ -36,6 +37,13 @@ public class User {
     @Column(name = "Status", nullable = false)
     private UserStatus status;
 
+    // --- CRITICAL FIX FOR 500 ERROR ---
+    // mappedBy refers to the "user" field in the Citizen entity
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Citizen citizen;
+    // ----------------------------------
+
     @CreationTimestamp
     @Column(name = "CreatedAt", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -44,7 +52,6 @@ public class User {
     @Column(name = "UpdatedAt", nullable = false)
     private LocalDateTime updatedAt;
 
-    // Default Constructor
     public User() {}
 
     // Getters and Setters
@@ -102,6 +109,14 @@ public class User {
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public Citizen getCitizen() {
+        return citizen;
+    }
+
+    public void setCitizen(Citizen citizen) {
+        this.citizen = citizen;
     }
 
     public LocalDateTime getCreatedAt() {

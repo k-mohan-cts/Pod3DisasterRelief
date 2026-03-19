@@ -1,9 +1,3 @@
-
-
-
-
-
-
 package org.cognizant.disastermanagement.dao;
 import org.cognizant.disastermanagement.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

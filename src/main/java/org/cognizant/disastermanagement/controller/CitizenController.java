@@ -12,23 +12,22 @@ public class CitizenController {
     @Autowired
     private CitizenService citizenService;
 
-    @PostMapping
+    @PostMapping("/createCitizen")
     public Citizen createCitizen(@RequestBody Citizen citizen) {
         return citizenService.createCitizen(citizen);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getCitizenById/{id}")
     public Citizen getCitizenById(@PathVariable int id) {
         return citizenService.getCitizenById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Citizen updateCitizen(@PathVariable int id, @RequestBody Citizen citizen) {
-        citizen.setCitizenId(id);
-        return citizenService.updateCitizen(citizen);
+        return citizenService.updateCitizen(id, citizen);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteCitizen(@PathVariable int id) {
         citizenService.deleteCitizen(id);
     }

@@ -13,29 +13,32 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/createUser")
     public User createUser(@RequestBody User user) {
+        System.out.println(user.getName()+" "+user.getPasswordHash());
         return userService.createUser(user);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getByUserId/{id}")
     public User getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public User updateUser(@PathVariable int id, @RequestBody User user) {
+        System.out.println(user.getPasswordHash());
         user.setUserId(id);
         return userService.updateUser(user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
+        System.out.println("user delted");
     }
 }

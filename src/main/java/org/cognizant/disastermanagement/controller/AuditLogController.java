@@ -13,12 +13,12 @@ public class AuditLogController {
     @Autowired
     private AuditLogService auditLogService;
 
-    @GetMapping
+    @GetMapping("/GetAllLogs")
     public List<AuditLog> getAllLogs() {
         return auditLogService.getAllLogs();
     }
 
-    @PostMapping
+    @PostMapping("/CreateLog")
     public AuditLog createLog(@RequestBody AuditLog log) {
         return auditLogService.logAction(log);
     }
