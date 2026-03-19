@@ -1,5 +1,6 @@
 package org.cognizant.disastermanagement.service;
 
+import jakarta.transaction.Transactional;
 import org.cognizant.disastermanagement.dao.DistributionRepository;
 import org.cognizant.disastermanagement.dto.DistributionRequestDTO;
 import org.cognizant.disastermanagement.dto.DistributionResponseDTO;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class DistributionService {
 
     private final DistributionRepository distributionRepository;
+    // Suggestion: Inject ReliefItemRepository here to check if items exist!
 
     public DistributionService(DistributionRepository distributionRepository) {
         this.distributionRepository = distributionRepository;
@@ -25,6 +27,7 @@ public class DistributionService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional // Added for data safety
     public DistributionResponseDTO saveDistribution(DistributionRequestDTO dto) {
         Distribution distribution = new Distribution();
         distribution.setItemId(dto.getItemId());
@@ -34,7 +37,6 @@ public class DistributionService {
         distribution.setNotes(dto.getNotes());
         distribution.setStatus(dto.getStatus());
 
-        // Automating the date
         distribution.setDate(LocalDateTime.now());
 
         Distribution saved = distributionRepository.save(distribution);
@@ -43,6 +45,7 @@ public class DistributionService {
 
     private DistributionResponseDTO mapToResponseDTO(Distribution distribution) {
         DistributionResponseDTO resp = new DistributionResponseDTO();
+        // Ensure these matches the field names in your ResponseDTO file!
         resp.setDistributionId(distribution.getDistributionId());
         resp.setItemId(distribution.getItemId());
         resp.setQuantity(distribution.getQuantity());

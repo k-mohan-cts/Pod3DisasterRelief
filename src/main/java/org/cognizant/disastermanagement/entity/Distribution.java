@@ -1,49 +1,47 @@
 package org.cognizant.disastermanagement.entity;
+
 import org.cognizant.disastermanagement.Enum.distributionStatus;
-
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "distribution")
 public class Distribution {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DistributionID") // CRITICAL: Matches your SQL PK exactly
     private int distributionId;
 
-    @Column(name="ItemId", nullable = false)
+    @Column(name = "ItemID", nullable = false)
     private int itemId;
 
-    @Column(name="CitizenId")
+    @Column(name = "CitizenID")
     private int citizenId;
 
-    @Column(name="OfficerId")
+    @Column(name = "OfficerID")
     private int officerId;
 
-    @Column(name="Quantity")
+    @Column(name = "Quantity")
     private int quantity;
 
-    @Column
+    @Column(name = "Date") // CRITICAL: Matches your SQL 'Date' column
     private LocalDateTime date;
 
-    @Column
+    @Column(name = "Status") // CRITICAL: Matches your SQL 'Status' column
     @Enumerated(EnumType.STRING)
     private distributionStatus status;
 
-    @Column
+    @Column(name = "notes") // Matches your lowercase 'notes' in schema
     private String notes;
 
-
+    // Getters and Setters
     public int getDistributionId() {
         return distributionId;
     }
 
-    public void setDistributionID(int distributionID) {
-        this.distributionId = distributionID;
+    public void setDistributionId(int distributionId) {
+        this.distributionId = distributionId;
     }
 
     public int getItemId() {
@@ -101,6 +99,4 @@ public class Distribution {
     public void setStatus(distributionStatus status) {
         this.status = status;
     }
-
-
 }
