@@ -1,4 +1,6 @@
 package org.cognizant.disastermanagement.controller;
+import org.cognizant.disastermanagement.dto.ReliefItemRequestDTO;
+import org.cognizant.disastermanagement.dto.ReliefItemResponseDTO;
 import org.cognizant.disastermanagement.entity.ReliefItem;
 import org.cognizant.disastermanagement.service.ReliefItemService;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +18,12 @@ public class ReliefItemController {
     }
 
     @GetMapping
-    public List<ReliefItem> getReliefItem(){
+    public List<ReliefItemResponseDTO> getReliefItem(){
         return reliefItemService.getAllReliefItem();
     }
 
     @PostMapping
-    public ReliefItem createReliefItem(@RequestBody ReliefItem reliefItem){
-        return reliefItemService.saveReliefItem(reliefItem);
+    public ReliefItemResponseDTO createReliefItem(@RequestBody ReliefItemRequestDTO reliefItemDto){
+        return reliefItemService.saveReliefItem(reliefItemDto);
     }
-
-
 }
