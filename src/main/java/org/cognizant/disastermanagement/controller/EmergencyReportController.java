@@ -1,6 +1,8 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.entity.EmergencyReport;
+import org.cognizant.disastermanagement.dto.EmergencyReportRequestDTO;
+import org.cognizant.disastermanagement.dto.EmergencyReportResponseDTO;
+import org.cognizant.disastermanagement.dto.EmergencyReportWithCitizenResponseDTO;
 import org.cognizant.disastermanagement.service.EmergencyReportService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,24 +19,22 @@ public class EmergencyReportController {
     }
 
     @PostMapping
-    public EmergencyReport create(@RequestBody EmergencyReport report) {
-        return service.create(report);
+    public EmergencyReportResponseDTO createReport(@RequestBody EmergencyReportRequestDTO request) {
+        return service.create(request);
     }
 
     @GetMapping
-    public List<EmergencyReport> getAll() {
+    public List<EmergencyReportResponseDTO> getAllReports() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public EmergencyReport getById(@PathVariable Long id) {
+    public EmergencyReportResponseDTO getReportById(@PathVariable Long id) {
         return service.getById(id);
     }
 
-    @PutMapping("/{id}/status")
-    public EmergencyReport updateStatus(
-            @PathVariable Long id,
-            @RequestParam String status) {
-        return service.updateStatus(id, status);
+    @GetMapping("/{id}/details")
+    public EmergencyReportWithCitizenResponseDTO getReportWithCitizen(@PathVariable Long id) {
+        return service.getReportWithCitizen(id);
     }
 }

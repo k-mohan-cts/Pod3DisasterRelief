@@ -2,7 +2,6 @@ package org.cognizant.disastermanagement.entity;
 
 import jakarta.persistence.*;
 import org.cognizant.disastermanagement.Enum.IncidentStatus;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,13 +12,18 @@ public class Incident {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long incidentId;
 
-    public Long getReportId() {
-        return reportId;
-    }
+    private Long reportId;      // Links to EmergencyReport
+    private Long officerId;     // Assigned Relief Officer
 
-    public void setReportId(Long reportId) {
-        this.reportId = reportId;
-    }
+    @Column(length = 1000)
+    private String actions;     // Actions taken by officer
+
+    private LocalDateTime date = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    private IncidentStatus status;
+
+    // Getters and Setters
 
     public Long getIncidentId() {
         return incidentId;
@@ -27,6 +31,14 @@ public class Incident {
 
     public void setIncidentId(Long incidentId) {
         this.incidentId = incidentId;
+    }
+
+    public Long getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(Long reportId) {
+        this.reportId = reportId;
     }
 
     public Long getOfficerId() {
@@ -53,21 +65,11 @@ public class Incident {
         this.date = date;
     }
 
-
-
-    private Long reportId;
-    private Long officerId;
-
-    @Column(length = 1000)
-    private String actions;
-
-    private LocalDateTime date = LocalDateTime.now();
-
-    private IncidentStatus status; // Acknowledged / InProgress / Completed
-
-    public void setStatus(String acknowledged) {
-
+    public IncidentStatus getStatus() {
+        return status;
     }
 
-    // Getters & Setters
+    public void setStatus(IncidentStatus status) {
+        this.status = status;
+    }
 }

@@ -5,5 +5,6 @@ public enum ReportStatus {
     UnderReview,
     Validated,
     Resolved,
+    PENDING,
     Closed
 }

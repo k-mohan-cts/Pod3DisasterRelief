@@ -2,25 +2,33 @@ package org.cognizant.disastermanagement.entity;
 
 import jakarta.persistence.*;
 import org.cognizant.disastermanagement.Enum.EmergencyType;
-import org.cognizant.disastermanagement.Enum.IncidentStatus;
+import org.cognizant.disastermanagement.Enum.ReportStatus;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "EmergencyReport")
 public class EmergencyReport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;
+    private Long reportId;     // Primary Key
 
-    private Long citizenId;
+    private Long citizenId;    // Linked to Citizen Module (4.2)
 
-    private EmergencyType type; // Flood / Earthquake / Fire
+    @Enumerated(EnumType.STRING)
+    private EmergencyType type;   // Flood/Earthquake/Fire
+
     private String location;
 
     private LocalDateTime date = LocalDateTime.now();
 
-    private IncidentStatus status;
+    @Enumerated(EnumType.STRING)
+    private ReportStatus status;
+
+    // -------------------------
+    // Getters and Setters
+    // -------------------------
 
     public Long getReportId() {
         return reportId;
@@ -38,7 +46,13 @@ public class EmergencyReport {
         this.citizenId = citizenId;
     }
 
+    public EmergencyType getType() {
+        return type;
+    }
 
+    public void setType(EmergencyType type) {
+        this.type = type;
+    }
 
     public String getLocation() {
         return location;
@@ -56,7 +70,11 @@ public class EmergencyReport {
         this.date = date;
     }
 
+    public ReportStatus getStatus() {
+        return status;
+    }
 
-    public void setStatus(String pending) {
+    public void setStatus(ReportStatus status) {
+        this.status = status;
     }
 }
