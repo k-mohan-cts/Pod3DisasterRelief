@@ -1,28 +1,35 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.entity.Shelter;
-import org.cognizant.disastermanagement.service.ShelterService; // Adjust package as needed
+import org.cognizant.disastermanagement.dto.ShelterRequestDTO;
+import org.cognizant.disastermanagement.dto.ShelterResponseDTO;
+import org.cognizant.disastermanagement.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Shelters") // Match the URL you'll use in Postman
+@RequestMapping("/Shelters")
 public class ShelterController {
 
     @Autowired
     private ShelterService shelterService;
 
-    // GET: http://localhost:1234/Shelters
+    // 1. GET: http://localhost:1234/Shelters
+    // Now returns a List of ResponseDTOs instead of Entities
     @GetMapping
-    public List<Shelter> getShelters() {
-        return shelterService.getAllShelters();
+    public ResponseEntity<List<ShelterResponseDTO>> getShelters() {
+        List<ShelterResponseDTO> responseList = shelterService.getAllShelters();
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    // POST: http://localhost:1234/Shelters
+    // 2. POST: http://localhost:1234/Shelters
+    // Receives RequestDTO and returns ResponseDTO
     @PostMapping
-    public Shelter createShelter(@RequestBody Shelter shelter) {
-        return shelterService.addShelter(shelter);
+    public ResponseEntity<ShelterResponseDTO> createShelter(@RequestBody ShelterRequestDTO requestDto) {
+        ShelterResponseDTO response = shelterService.addShelter(requestDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

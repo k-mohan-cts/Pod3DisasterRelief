@@ -14,106 +14,106 @@ public class ReliefItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ItemId",nullable=false, unique=true)
-    private Integer ItemId;
+    private Integer itemId;
 
     @Column(nullable = false)
-    private type Type;
+    private type type;
 
     @Column(nullable = false)
-    private String Name;
+    private String name;
 
     @Column
-    private Integer Quantity;
+    private Integer quantity;
 
     @Column
-    private String Unit;
+    private String unit;
 
     @Column
-    private reliefStatus Status;
+    private reliefStatus status;
 
     @Column
-    private LocalDateTime CreatedAt;
+    private LocalDateTime createdAt;
 
     @Column
-    private LocalDateTime UpdatedAt;
+    private LocalDateTime updatedAt;
 
     public ReliefItem(){}
 
-    public ReliefItem( Integer ItemId, type Type, String Name, Integer Quantity, String Unit, reliefStatus Status, LocalDateTime CreatedAt ,LocalDateTime UpdatedAt){
-        this.ItemId = ItemId;
-        this.Type = Type;
-        this.Name = Name;
-        this.Quantity = Quantity;
-        this.Unit = Unit;
-        this.Status = Status;
-        this.CreatedAt = CreatedAt;
-        this.UpdatedAt = UpdatedAt;
-    }
-
-
     public Integer getItemId() {
-        return ItemId;
+        return itemId;
     }
 
     public void setItemId(Integer itemId) {
-        ItemId = itemId;
+        this.itemId = itemId;
     }
 
     public type getType() {
-        return Type;
+        return type;
     }
 
     public void setType(type type) {
-        Type = type;
+        this.type = type;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public Integer getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(Integer quantity) {
-        Quantity = quantity;
+        this.quantity = quantity;
     }
 
     public String getUnit() {
-        return Unit;
+        return unit;
     }
 
-
     public void setUnit(String unit) {
-        Unit = unit;
+        this.unit = unit;
     }
 
     public reliefStatus getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(reliefStatus status) {
-        Status = status;
+        this.status = status;
     }
-
-    public LocalDateTime getUpdatedAt() {
-        return UpdatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        UpdatedAt = updatedAt;
-    }
-
 
     public LocalDateTime getCreatedAt() {
-        return CreatedAt;
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        CreatedAt = createdAt;
+        this.createdAt = createdAt;
     }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public ReliefItem(Integer itemId, type type, String name, Integer quantity, String unit, reliefStatus status, LocalDateTime createdAt , LocalDateTime updatedAt){
+        this.itemId = itemId;
+        this.type = type;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+
+
 }

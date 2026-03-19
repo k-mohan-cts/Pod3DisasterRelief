@@ -1,5 +1,5 @@
 package org.cognizant.disastermanagement.Enum;
 
-enum shelterStatus {
+public enum shelterStatus {
     Open, Full, Closed, UnderMaintenance;
 }

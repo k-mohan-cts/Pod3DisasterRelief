@@ -9,128 +9,127 @@ import java.time.LocalDateTime;
 @Table(name="Shelter")
 public class Shelter {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ShelterId;
-
-    @Column
-    private String Name;
-
-    @Column
-    private String Location;
-
-    @Column
-    private Double Latitude;
-
-    @Column
-    private Double Longitude;
-
-    @Column
-    private int Capacity;
-
-    @Column
-    private int Occupancy;
-
-    @Column
-    private shelterStatus Status;
-
-    @Column
-    private String ContactInfo;
-
-    @Column
-    private LocalDateTime CreatedAt;
-
-    @Column
-    private LocalDateTime UpdatedAt;
-
-
     public int getShelterId() {
-        return ShelterId;
+        return shelterId;
     }
 
     public void setShelterId(int shelterId) {
-        ShelterId = shelterId;
+        this.shelterId = shelterId;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     public void setLocation(String location) {
-        Location = location;
+        this.location = location;
     }
 
     public Double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public Double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public int getCapacity() {
-        return Capacity;
+        return capacity;
     }
 
     public void setCapacity(int capacity) {
-        Capacity = capacity;
+        this.capacity = capacity;
     }
 
     public int getOccupancy() {
-        return Occupancy;
+        return occupancy;
     }
 
     public void setOccupancy(int occupancy) {
-        Occupancy = occupancy;
+        this.occupancy = occupancy;
     }
 
     public shelterStatus getStatus() {
-        return Status;
+        return status;
     }
 
-    public void setStatus(shelterStatus Status) {
-        this.Status = this.Status;
+    public void setStatus(shelterStatus status) {
+        this.status = status;
     }
 
     public String getContactInfo() {
-        return ContactInfo;
+        return contactInfo;
     }
 
     public void setContactInfo(String contactInfo) {
-        ContactInfo = contactInfo;
+        this.contactInfo = contactInfo;
     }
 
     public LocalDateTime getCreatedAt() {
-        return CreatedAt;
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        CreatedAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
-        return UpdatedAt;
+        return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
-        UpdatedAt = updatedAt;
+        this.updatedAt = updatedAt;
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int shelterId;
+
+    @Column(name = "Name")
+    private String name;
+
+    @Column(name = "Location")
+    private String location;
+
+    @Column(name = "Latitude")
+    private Double latitude;
+
+    @Column(name = "Longitude")
+    private Double longitude;
+
+    @Column(name = "Capacity")
+    private int capacity;
+
+    @Column(name = "Occupancy")
+    private int occupancy;
+
+    @Column(name = "Status")
+    private shelterStatus status;
+
+    @Column(name = "ContactInfo")
+    private String contactInfo;
+
+    @Column(name = "CreatedAt")
+    private LocalDateTime createdAt;
+
+    @Column(name= "UpdatedAt")
+    private LocalDateTime updatedAt;
 
 
 

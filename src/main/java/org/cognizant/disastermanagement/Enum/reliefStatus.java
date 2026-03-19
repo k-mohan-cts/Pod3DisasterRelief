@@ -1,5 +1,5 @@
 package org.cognizant.disastermanagement.Enum;
 
-enum reliefStatus {
+public enum reliefStatus {
     Available, Low, OutOfStock, Reserved
 }
