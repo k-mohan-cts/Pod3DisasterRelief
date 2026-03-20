@@ -1,11 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.dto.AssignOfficerRequestDTO;
-import org.cognizant.disastermanagement.dto.CreateIncidentRequestDTO;
-import org.cognizant.disastermanagement.dto.IncidentResponseDTO;
-import org.cognizant.disastermanagement.dto.IncidentResponseDTO;
-import org.cognizant.disastermanagement.dto.CreateIncidentRequestDTO;
-import org.cognizant.disastermanagement.dto.IncidentResponseDTO;
+import org.cognizant.disastermanagement.dto.IncidentDTO;
 import org.cognizant.disastermanagement.service.IncidentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,32 +16,37 @@ public class IncidentController {
         this.service = service;
     }
 
+    // CREATE an incident
     @PostMapping
-    public IncidentResponseDTO createIncident(@RequestBody CreateIncidentRequestDTO request) {
-        return service.create(request);
+    public IncidentDTO createIncident(@RequestBody IncidentDTO dto) {
+        return service.create(dto);
     }
 
+    // GET all incidents
     @GetMapping
-    public List<IncidentResponseDTO> getAllIncidents() {
+    public List<IncidentDTO> getAllIncidents() {
         return service.getAll();
     }
 
+    // GET a single incident
     @GetMapping("/{id}")
-    public IncidentResponseDTO getIncidentById(@PathVariable Long id) {
+    public IncidentDTO getIncidentById(@PathVariable int id) {
         return service.getById(id);
     }
 
+    // UPDATE incident status
     @PutMapping("/{id}/status")
-    public IncidentResponseDTO updateIncidentStatus(
-            @PathVariable Long id,
+    public IncidentDTO updateIncidentStatus(
+            @PathVariable int id,
             @RequestParam String status) {
         return service.updateStatus(id, status);
     }
 
-    @PutMapping("/{incidentId}/assign-officer")
-    public IncidentResponseDTO assignReliefOfficer(
-            @PathVariable Long incidentId,
-            @RequestBody AssignOfficerRequestDTO request) {
-        return service.assignReliefOfficer(incidentId, request);
+    // ASSIGN relief officer to an incident
+    @PutMapping("/{id}/assign-officer/{officerId}")
+    public IncidentDTO assignOfficer(
+            @PathVariable int id,
+            @PathVariable int officerId) {
+        return service.assignOfficer(id, officerId);
     }
 }

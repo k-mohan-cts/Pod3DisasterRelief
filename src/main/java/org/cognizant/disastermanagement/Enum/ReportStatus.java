@@ -1,10 +1,10 @@
 package org.cognizant.disastermanagement.Enum;
 
 public enum ReportStatus {
-    Submitted,
-    UnderReview,
-    Validated,
-    Resolved,
+    SUBMITTED,
+    UNDERREVIEW,
+    VALIDATED,
+    RESOLVED,
     PENDING,
-    Closed
+    CLOSED
 }

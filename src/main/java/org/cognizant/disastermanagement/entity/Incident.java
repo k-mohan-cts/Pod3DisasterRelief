@@ -1,7 +1,11 @@
 package org.cognizant.disastermanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.cognizant.disastermanagement.Enum.IncidentStatus;
+import org.cognizant.disastermanagement.dto.IncidentDTO;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,66 +14,56 @@ public class Incident {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long incidentId;
+    @Column(name = "IncidentID")
+    private int incidentId;
 
-    private Long reportId;      // Links to EmergencyReport
-    private Long officerId;     // Assigned Relief Officer
-
-    @Column(length = 1000)
-    private String actions;     // Actions taken by officer
-
-    private LocalDateTime date = LocalDateTime.now();
+    @Column(name = "Actions", nullable = false, length = 1000)
+    private String actions;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "Status", nullable = false)
     private IncidentStatus status;
 
-    // Getters and Setters
+    @CreationTimestamp
+    @Column(name = "CreatedAt", updatable = false)
+    private LocalDateTime date;
 
-    public Long getIncidentId() {
-        return incidentId;
+    // MANY Incidents → ONE EmergencyReport
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ReportID")
+    @JsonBackReference
+    private EmergencyReport emergencyReport;
+
+    // MANY Incidents → ONE Officer (User with role = OFFICER)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "OfficerID")
+    private User officer;
+
+    public Incident() {}
+
+    public Incident(IncidentDTO dto) {
+        this.incidentId = dto.getIncidentId();
+        this.actions = dto.getActions();
+        this.status = dto.getStatus();
+        this.date = dto.getDate();
     }
 
-    public void setIncidentId(Long incidentId) {
-        this.incidentId = incidentId;
-    }
+    // GETTERS & SETTERS
 
-    public Long getReportId() {
-        return reportId;
-    }
+    public int getIncidentId() { return incidentId; }
+    public void setIncidentId(int incidentId) { this.incidentId = incidentId; }
 
-    public void setReportId(Long reportId) {
-        this.reportId = reportId;
-    }
+    public String getActions() { return actions; }
+    public void setActions(String actions) { this.actions = actions; }
 
-    public Long getOfficerId() {
-        return officerId;
-    }
+    public IncidentStatus getStatus() { return status; }
+    public void setStatus(IncidentStatus status) { this.status = status; }
 
-    public void setOfficerId(Long officerId) {
-        this.officerId = officerId;
-    }
+    public LocalDateTime getDate() { return date; }
 
-    public String getActions() {
-        return actions;
-    }
+    public EmergencyReport getEmergencyReport() { return emergencyReport; }
+    public void setEmergencyReport(EmergencyReport emergencyReport) { this.emergencyReport = emergencyReport; }
 
-    public void setActions(String actions) {
-        this.actions = actions;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public IncidentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(IncidentStatus status) {
-        this.status = status;
-    }
+    public User getOfficer() { return officer; }
+    public void setOfficer(User officer) { this.officer = officer; }
 }

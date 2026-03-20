@@ -1,10 +1,16 @@
 package org.cognizant.disastermanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.cognizant.disastermanagement.Enum.EmergencyType;
 import org.cognizant.disastermanagement.Enum.ReportStatus;
+import org.cognizant.disastermanagement.dto.EmergencyReportDTO;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "EmergencyReport")
@@ -12,69 +18,64 @@ public class EmergencyReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;     // Primary Key
+    @Column(name = "ReportID")
+    private Integer reportId;
 
-    private Long citizenId;    // Linked to Citizen Module (4.2)
-
-    @Enumerated(EnumType.STRING)
-    private EmergencyType type;   // Flood/Earthquake/Fire
-
+    @Column(name = "Location", nullable = false)
     private String location;
 
-    private LocalDateTime date = LocalDateTime.now();
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Type", nullable = false)
+    private EmergencyType type;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "Status", nullable = false)
     private ReportStatus status;
 
-    // -------------------------
-    // Getters and Setters
-    // -------------------------
+    @CreationTimestamp
+    @Column(name = "CreatedDate", updatable = false)
+    private LocalDateTime date;
 
-    public Long getReportId() {
-        return reportId;
+    // MANY Reports -> ONE Citizen
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CitizenID")
+    @JsonBackReference
+    private Citizen citizen;
+
+    // ONE Report -> MANY Incidents
+    @OneToMany(mappedBy = "emergencyReport", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Incident> incidents = new ArrayList<>();
+
+    public EmergencyReport() {}
+
+    public EmergencyReport(EmergencyReportDTO dto) {
+        this.reportId = dto.getReportId();
+        this.location = dto.getLocation();
+        this.type = dto.getType();
+        this.status = dto.getStatus();
+        this.date = dto.getDate();
     }
 
-    public void setReportId(Long reportId) {
-        this.reportId = reportId;
-    }
+    // GETTERS & SETTERS
 
-    public Long getCitizenId() {
-        return citizenId;
-    }
+    public Integer getReportId() { return reportId; }
+    public void setReportId(Integer reportId) { this.reportId = reportId; }
 
-    public void setCitizenId(Long citizenId) {
-        this.citizenId = citizenId;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public EmergencyType getType() {
-        return type;
-    }
+    public EmergencyType getType() { return type; }
+    public void setType(EmergencyType type) { this.type = type; }
 
-    public void setType(EmergencyType type) {
-        this.type = type;
-    }
+    public ReportStatus getStatus() { return status; }
+    public void setStatus(ReportStatus status) { this.status = status; }
 
-    public String getLocation() {
-        return location;
-    }
+    public LocalDateTime getDate() { return date; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public Citizen getCitizen() { return citizen; }
+    public void setCitizen(Citizen citizen) { this.citizen = citizen; }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public ReportStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReportStatus status) {
-        this.status = status;
-    }
+    public List<Incident> getIncidents() { return incidents; }
+    public void setIncidents(List<Incident> incidents) { this.incidents = incidents; }
 }

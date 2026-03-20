@@ -1,11 +1,8 @@
 package org.cognizant.disastermanagement.service;
 
-import org.cognizant.disastermanagement.Enum.ReportStatus;
 import org.cognizant.disastermanagement.dao.CitizenRepository;
 import org.cognizant.disastermanagement.dao.EmergencyRepository;
-import org.cognizant.disastermanagement.dto.EmergencyReportRequestDTO;
-import org.cognizant.disastermanagement.dto.EmergencyReportResponseDTO;
-import org.cognizant.disastermanagement.dto.EmergencyReportWithCitizenResponseDTO;
+import org.cognizant.disastermanagement.dto.EmergencyReportDTO;
 import org.cognizant.disastermanagement.entity.Citizen;
 import org.cognizant.disastermanagement.entity.EmergencyReport;
 import org.cognizant.disastermanagement.exception.ResourceNotFoundException;
@@ -18,70 +15,67 @@ import java.util.stream.Collectors;
 public class EmergencyReportService {
 
     private final EmergencyRepository reportRepo;
-    //private final CitizenRepository citizenRepo;
-    private final int citizenRepo;
+    private final CitizenRepository citizenRepo;
 
-    public EmergencyReportService(EmergencyRepository reportRepo, int citizenRepo) {
+    public EmergencyReportService(EmergencyRepository reportRepo, CitizenRepository citizenRepo) {
         this.reportRepo = reportRepo;
         this.citizenRepo = citizenRepo;
     }
 
     // CREATE
-    public EmergencyReportResponseDTO create(EmergencyReportRequestDTO req) {
+    public EmergencyReportDTO create(EmergencyReportDTO dto) {
 
-        citizenRepo.findById(req.getCitizenId())
-                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found"));
+        Citizen citizen = citizenRepo.findById(dto.getCitizenId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Citizen not found with ID: " + dto.getCitizenId()));
 
-        EmergencyReport report = new EmergencyReport();
-        report.setCitizenId(req.getCitizenId());
-        report.setType(req.getType());
-        report.setLocation(req.getLocation());
-        report.setStatus(ReportStatus.PENDING);
+        EmergencyReport report = new EmergencyReport(dto);
+        report.setCitizen(citizen);
 
         EmergencyReport saved = reportRepo.save(report);
+
         return toDTO(saved);
     }
 
     // GET ALL
-    public List<EmergencyReportResponseDTO> getAll() {
+    public List<EmergencyReportDTO> getAll() {
         return reportRepo.findAll()
                 .stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    // GET ONE
-    public EmergencyReportResponseDTO getById(Long id) {
+    // GET BY ID
+    public EmergencyReportDTO getById(int id) {
         EmergencyReport report = reportRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Report not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Report not found with ID: " + id));
         return toDTO(report);
     }
 
-    // GET ONE WITH CITIZEN
-    public EmergencyReportWithCitizenResponseDTO getReportWithCitizen(Long id) {
-
+    // GET WITH CITIZEN
+    public EmergencyReportDTO getWithCitizen(int id) {
         EmergencyReport report = reportRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Report not found"));
-
-        Citizen citizen = citizenRepo.findById(report.getCitizenId())
-                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found"));
-
-        EmergencyReportWithCitizenResponseDTO dto = new EmergencyReportWithCitizenResponseDTO();
-        dto.setReport(toDTO(report));
-        dto.setCitizen(citizen);
-
-        return dto;
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Report not found with ID: " + id));
+        return toDTO(report);
     }
 
-    // MAPPER
-    private EmergencyReportResponseDTO toDTO(EmergencyReport report) {
-        EmergencyReportResponseDTO dto = new EmergencyReportResponseDTO();
-        dto.setReportId(report.getReportId());
-        dto.setCitizenId(report.getCitizenId());
-        dto.setType(report.getType());
-        dto.setLocation(report.getLocation());
-        dto.setDate(report.getDate());
-        dto.setStatus(report.getStatus());
+    // ENTITY → DTO
+    private EmergencyReportDTO toDTO(EmergencyReport entity) {
+
+        EmergencyReportDTO dto = new EmergencyReportDTO();
+
+        dto.setReportId(entity.getReportId());
+        dto.setLocation(entity.getLocation());
+        dto.setType(entity.getType());
+        dto.setStatus(entity.getStatus());
+        dto.setDate(entity.getDate());
+
+        if (entity.getCitizen() != null) {
+            dto.setCitizenId(entity.getCitizen().getCitizenId());
+        }
+
         return dto;
     }
 }
