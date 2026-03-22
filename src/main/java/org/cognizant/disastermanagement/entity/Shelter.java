@@ -1,12 +1,18 @@
 package org.cognizant.disastermanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.cognizant.disastermanagement.Enum.shelterStatus;
-
 import java.time.LocalDateTime;
+import java.util.Vector;
 
+@Getter // Lombok generates all getters
+@Setter // Lombok generates all setters
 @Entity
 @Table(name="Shelter")
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Shelter {
 
     public int getShelterId() {
@@ -130,7 +136,5 @@ public class Shelter {
 
     @Column(name= "UpdatedAt")
     private LocalDateTime updatedAt;
-
-
 
 }

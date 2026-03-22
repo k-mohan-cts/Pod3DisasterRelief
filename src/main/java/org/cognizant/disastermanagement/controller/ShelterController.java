@@ -32,4 +32,10 @@ public class ShelterController {
         ShelterResponseDTO response = shelterService.addShelter(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @PutMapping
+    public ResponseEntity<ShelterResponseDTO> updateShelter(@RequestBody ShelterRequestDTO requestDTO){
+        ShelterResponseDTO response=shelterService.updateShelters(requestDTO);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 }

@@ -69,4 +69,21 @@ public class ShelterService {
 
         return response;
     }
+    public ShelterResponseDTO updateShelters(ShelterRequestDTO request) {
+        Shelter record = shelterRepository.findByName(request.getName());
+
+        if (record == null) {
+            throw new RuntimeException("Shelter not found");
+        }
+        Shelter updatedRecord = record.toBuilder()
+                .capacity(request.getCapacity())
+                .contactInfo(request.getContactInfo())
+                .location(request.getLocation())
+                .occupancy(request.getOccupancy())
+                .status(request.getStatus())
+                .build();
+        Shelter savedRecord = shelterRepository.save(updatedRecord);
+        return mapToResponseDTO(savedRecord);
+    }
+
 }

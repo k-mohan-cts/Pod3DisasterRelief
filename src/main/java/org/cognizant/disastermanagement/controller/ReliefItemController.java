@@ -26,4 +26,7 @@ public class ReliefItemController {
     public ReliefItemResponseDTO createReliefItem(@RequestBody ReliefItemRequestDTO reliefItemDto){
         return reliefItemService.saveReliefItem(reliefItemDto);
     }
+    @PutMapping ReliefItemResponseDTO updateReleifItem(@RequestBody ReliefItemRequestDTO reliefItemDto){
+        return reliefItemService.updateReliefItem(reliefItemDto);
+    }
 }
