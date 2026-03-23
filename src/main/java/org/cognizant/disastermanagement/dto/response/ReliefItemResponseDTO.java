@@ -1,16 +1,24 @@
-package org.cognizant.disastermanagement.dto;
+package org.cognizant.disastermanagement.dto.response;
 
+import lombok.Data;
 import org.cognizant.disastermanagement.Enum.reliefStatus;
 import org.cognizant.disastermanagement.Enum.type;
+import java.time.LocalDateTime;
 
-public class ReliefItemRequestDTO {
+
+@Data
+public class ReliefItemResponseDTO {
+    private Integer itemId;
     private type type;
     private String name;
     private Integer quantity;
     private String unit;
     private reliefStatus status;
+    private LocalDateTime updatedAt;
 
     // Getters and Setters
+    public Integer getItemId() { return itemId; }
+    public void setItemId(Integer itemId) { this.itemId = itemId; }
     public type getType() { return type; }
     public void setType(type type) { this.type = type; }
     public String getName() { return name; }
@@ -21,4 +29,6 @@ public class ReliefItemRequestDTO {
     public void setUnit(String unit) { this.unit = unit; }
     public reliefStatus getStatus() { return status; }
     public void setStatus(reliefStatus status) { this.status = status; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

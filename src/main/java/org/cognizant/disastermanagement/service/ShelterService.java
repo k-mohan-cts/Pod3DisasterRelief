@@ -1,8 +1,8 @@
 package org.cognizant.disastermanagement.service;
 
 import org.cognizant.disastermanagement.dao.ShelterRepository;
-import org.cognizant.disastermanagement.dto.ShelterRequestDTO;
-import org.cognizant.disastermanagement.dto.ShelterResponseDTO;
+import org.cognizant.disastermanagement.dto.request.ShelterRequestDTO;
+import org.cognizant.disastermanagement.dto.response.ShelterResponseDTO;
 import org.cognizant.disastermanagement.entity.Shelter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

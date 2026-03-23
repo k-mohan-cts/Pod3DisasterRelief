@@ -3,8 +3,8 @@ package org.cognizant.disastermanagement.service;
 import jakarta.transaction.Transactional;
 import org.cognizant.disastermanagement.Enum.distributionStatus;
 import org.cognizant.disastermanagement.dao.DistributionRepository;
-import org.cognizant.disastermanagement.dto.DistributionRequestDTO;
-import org.cognizant.disastermanagement.dto.DistributionResponseDTO;
+import org.cognizant.disastermanagement.dto.request.DistributionRequestDTO;
+import org.cognizant.disastermanagement.dto.response.DistributionResponseDTO;
 import org.cognizant.disastermanagement.entity.Distribution;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +78,13 @@ public class DistributionService {
         // Convert Enum back to String for the Response
         resp.setStatus(distribution.getStatus() != null ? distribution.getStatus().name() : null);
         return resp;
+    }
+
+    public void deleteDistribution(Integer id) {
+        if (!distributionRepository.existsById(id)) {
+            throw new RuntimeException("Distribution record not found with ID: " + id);
+        }
+        distributionRepository.deleteById(id);
     }
 
     // Helper to safely parse Status from String to Enum

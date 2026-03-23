@@ -1,4 +1,4 @@
-package org.cognizant.disastermanagement.dto;
+package org.cognizant.disastermanagement.dto.response;
 
 import org.cognizant.disastermanagement.Enum.shelterStatus;
 import java.time.LocalDateTime;

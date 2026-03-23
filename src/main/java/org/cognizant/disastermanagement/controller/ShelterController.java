@@ -1,7 +1,7 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.dto.ShelterRequestDTO;
-import org.cognizant.disastermanagement.dto.ShelterResponseDTO;
+import org.cognizant.disastermanagement.dto.request.ShelterRequestDTO;
+import org.cognizant.disastermanagement.dto.response.ShelterResponseDTO;
 import org.cognizant.disastermanagement.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

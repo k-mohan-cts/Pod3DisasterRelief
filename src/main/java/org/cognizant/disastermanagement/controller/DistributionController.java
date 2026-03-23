@@ -1,7 +1,7 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.dto.DistributionRequestDTO;
-import org.cognizant.disastermanagement.dto.DistributionResponseDTO;
+import org.cognizant.disastermanagement.dto.request.DistributionRequestDTO;
+import org.cognizant.disastermanagement.dto.response.DistributionResponseDTO;
 import org.cognizant.disastermanagement.service.DistributionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +42,11 @@ public class DistributionController {
 
         DistributionResponseDTO response = distributionService.updateDistribution(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
+        distributionService.deleteDistribution(id);
+        return ResponseEntity.ok("Record with ID " + id + " has been deleted successfully.");
     }
 }
