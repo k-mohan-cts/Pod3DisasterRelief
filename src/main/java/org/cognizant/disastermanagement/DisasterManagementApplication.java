@@ -1,3 +1,4 @@
+
 package org.cognizant.disastermanagement;
 
 import org.springframework.boot.SpringApplication;
