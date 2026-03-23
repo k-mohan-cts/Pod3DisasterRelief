@@ -29,7 +29,7 @@ public class AuditService {
                 .orElseThrow(() -> new RuntimeException("Compliance Officer not found with ID: " + request.getOfficerId()));
 
         // Business Logic 2: Default Status and Timestamps
-        AuditStatus finalStatus = (request.getStatus() == null) ? AuditStatus.Scheduled : request.getStatus();
+        AuditStatus finalStatus = (request.getStatus() == null) ? AuditStatus.SCHEDULED : request.getStatus();
         LocalDateTime now = LocalDateTime.now();
 
         Audit audit = Audit.builder()

@@ -32,7 +32,7 @@ public class ComplianceRecordService {
 
         // Logic: Default to PendingReview if result is not provided
         ComplianceResult finalResult = (request.getResult() == null)
-                ? ComplianceResult.PendingReview : request.getResult();
+                ? ComplianceResult.PENDINGREVIEW : request.getResult();
 
         ComplianceRecord record = ComplianceRecord.builder()
                 .entityId(request.getEntityId())
