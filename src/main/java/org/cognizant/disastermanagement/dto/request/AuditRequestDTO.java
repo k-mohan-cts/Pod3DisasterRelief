@@ -1,79 +1,27 @@
-package org.cognizant.disastermanagement.dto;
+package org.cognizant.disastermanagement.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.cognizant.disastermanagement.Enum.AuditStatus;
 
-import java.io.Serial;
-import java.io.Serializable;
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuditRequestDTO {
 
-/**
- * DTO for creating or updating an Audit record
- */
-public class AuditRequestDTO implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    //@NotNull(message = "Officer ID cannot be null")
+    @NotNull(message = "Officer ID is required to link the audit")
     private Integer officerId;
 
-    @NotBlank(message = "Scope cannot be blank")
+    @NotBlank(message = "Scope is required (e.g., 'Food Distribution Q1')")
     private String scope;
 
     private String findings;
 
+    // Optional: If null, the Service will set it to 'Scheduled'
     private AuditStatus status;
-
-    // Constructors
-    public AuditRequestDTO() {
-    }
-
-    public AuditRequestDTO(Integer officerId, String scope, String findings) {
-        this.officerId = officerId;
-        this.scope = scope;
-        this.findings = findings;
-    }
-
-    // Getters and Setters
-    public Integer getOfficerId() {
-        return officerId;
-    }
-
-    public void setOfficerId(Integer officerId) {
-        this.officerId = officerId;
-    }
-
-    public String getScope() {
-        return scope;
-    }
-
-    public void setScope(String scope) {
-        this.scope = scope;
-    }
-
-    public String getFindings() {
-        return findings;
-    }
-
-    public void setFindings(String findings) {
-        this.findings = findings;
-    }
-
-    public AuditStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AuditStatus status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "AuditRequestDTO{" +
-                "officerId=" + officerId +
-                ", scope='" + scope + '\'' +
-                ", findings='" + findings + '\'' +
-                ", status=" + status +
-                '}';
-    }
 }
