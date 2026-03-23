@@ -1,17 +1,36 @@
 package org.cognizant.disastermanagement.dto.request;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.shelterStatus;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 public class ShelterRequestDTO {
+
+    @NotBlank(message="Name cannot be blank")
     private String name;
+
+    @NotBlank(message="Location cannot be blank")
     private String location;
+
+    @NotNull(message="coordinates cant be empty")
     private Double latitude;
+
+    @NotNull(message="coordinates cant be empty")
     private Double longitude;
+
+    @DecimalMin(value = "1", message = "Quantity must be at least 1")
     private int capacity;
+
+    @Positive(message="Occupancy cannot be negative")
     private int occupancy;
+
     private shelterStatus status;
+
+    @NotNull
     private String contactInfo;
 
     // Standard Getters and Setters

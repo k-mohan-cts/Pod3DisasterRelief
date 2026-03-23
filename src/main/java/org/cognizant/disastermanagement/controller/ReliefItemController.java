@@ -31,9 +31,16 @@ public class ReliefItemController {
         return ResponseEntity.ok(reliefItemService.saveReliefItem(reliefItemDto));
     }
 
-    @PutMapping
-    public ResponseEntity<ReliefItemResponseDTO> updateReliefItem(@RequestBody ReliefItemRequestDTO reliefItemDto){
-        return ResponseEntity.ok(reliefItemService.updateReliefItem(reliefItemDto));
+    @PutMapping("/{id}")
+    public ResponseEntity<ReliefItemResponseDTO> updateReliefItem(
+            @PathVariable Integer id,
+            @RequestBody ReliefItemRequestDTO reliefItemDto
+    ) {
+        // Force the ID from the URL into the DTO
+        reliefItemDto.setItemId(id);
+
+        ReliefItemResponseDTO response = reliefItemService.updateReliefItem(reliefItemDto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

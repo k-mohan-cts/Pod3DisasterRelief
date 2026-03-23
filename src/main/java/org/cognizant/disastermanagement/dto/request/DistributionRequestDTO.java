@@ -1,18 +1,31 @@
 package org.cognizant.disastermanagement.dto.request;
 
 
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
 public class DistributionRequestDTO {
+
     private Integer distributionId;
+
+    @Positive(message="Item ID cant be negative and cannot have decimals")
     private Integer itemId;
+
+    @Positive(message="Citizen ID cant be negative and cannot have decimals")
     private Integer citizenId;
+
+    @Positive(message="Officer ID cant be negative and cannot have decimals")
     private Integer officerId;
+
+    @PositiveOrZero(message = "Quantity must be at least 0.1")
     private Integer quantity;
+
+    @NotBlank(message = "Notes cannot be null")
     private String notes;
 
     // Receiving status as a String is much more stable for JSON input
+    @NotNull
     private String status;
 
     // Standard Getters and Setters
