@@ -2,7 +2,7 @@ package org.cognizant.disastermanagement.Enum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum RecoveryStatus {
-    Cancelled, Completed, Planned, Active, Suspended;
+    CANCELLED, COMPLETED, PLANNED, ACTIVE, SUSPENDED;
 
     @JsonCreator
     public static RecoveryStatus fromString(String value) {

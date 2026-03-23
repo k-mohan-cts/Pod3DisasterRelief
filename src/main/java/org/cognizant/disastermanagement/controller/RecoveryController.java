@@ -85,7 +85,7 @@ public class RecoveryController {
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
         entity.setBudget(dto.getBudget());
-        entity.setStatus(RecoveryStatus.Planned);
+        entity.setStatus(RecoveryStatus.PLANNED);
         return entity;
     }
 }

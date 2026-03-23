@@ -90,13 +90,13 @@ public class DistributionService {
     // Helper to safely parse Status from String to Enum
     private distributionStatus parseStatus(String statusStr) {
         if (statusStr == null || statusStr.isEmpty()) {
-            return distributionStatus.Pending; // Default fallback
+            return distributionStatus.PENDING; // Default fallback
         }
         try {
             return distributionStatus.valueOf(statusStr);
         } catch (IllegalArgumentException e) {
             // Handle case where user sends "pending" instead of "Pending"
-            return distributionStatus.Pending;
+            return distributionStatus.PENDING;
         }
     }
 }

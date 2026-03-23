@@ -1,6 +1,7 @@
 package org.cognizant.disastermanagement.controller;
 
 import jakarta.validation.Valid;
+import org.cognizant.disastermanagement.Enum.ResourceStatus;
 import org.cognizant.disastermanagement.dto.request.ResourceRequestDTO;
 import org.cognizant.disastermanagement.dto.response.ResourceResponseDTO;
 import org.cognizant.disastermanagement.entity.Resource;
@@ -72,7 +73,7 @@ public class ResourceController {
         entity.setQuantity(dto.getQuantity());
         entity.setUnit(dto.getUnit());
         // Business logic: New resources are set to Available by default
-        entity.setStatus(org.cognizant.disastermanagement.Enum.ResourceStatus.Allocated);
+        entity.setStatus(ResourceStatus.ALLOCATED);
         entity.setReceivedBy("");
         return entity;
     }

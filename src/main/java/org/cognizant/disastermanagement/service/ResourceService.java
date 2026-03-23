@@ -115,9 +115,9 @@ public class ResourceService {
 
         // Monitoring Logic: Auto-update status
         if (res.getQuantity() == 0) {
-            res.setStatus(ResourceStatus.Consumed);
+            res.setStatus(ResourceStatus.CONSUMED);
         } else {
-            res.setStatus(ResourceStatus.InUse);
+            res.setStatus(ResourceStatus.INUSE);
         }
 
         Resource updatedResource = resourceRepo.save(res);
