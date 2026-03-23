@@ -1,6 +1,7 @@
 package org.cognizant.disastermanagement.service;
 
 import jakarta.transaction.Transactional;
+import org.cognizant.disastermanagement.Enum.distributionStatus;
 import org.cognizant.disastermanagement.dao.DistributionRepository;
 import org.cognizant.disastermanagement.dto.DistributionRequestDTO;
 import org.cognizant.disastermanagement.dto.DistributionResponseDTO;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 public class DistributionService {
 
     private final DistributionRepository distributionRepository;
-    // Suggestion: Inject ReliefItemRepository here to check if items exist!
 
     public DistributionService(DistributionRepository distributionRepository) {
         this.distributionRepository = distributionRepository;
@@ -27,31 +27,69 @@ public class DistributionService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional // Added for data safety
+    @Transactional
     public DistributionResponseDTO saveDistribution(DistributionRequestDTO dto) {
-        Distribution distribution = new Distribution();
-        distribution.setItemId(dto.getItemId());
-        distribution.setCitizenId(dto.getCitizenId());
-        distribution.setOfficerId(dto.getOfficerId());
-        distribution.setQuantity(dto.getQuantity());
-        distribution.setNotes(dto.getNotes());
-        distribution.setStatus(dto.getStatus());
-
-        distribution.setDate(LocalDateTime.now());
+        // Use the Builder for consistency and null-safety
+        Distribution distribution = Distribution.builder()
+                .itemId(dto.getItemId())
+                .citizenId(dto.getCitizenId())
+                .officerId(dto.getOfficerId())
+                .quantity(dto.getQuantity() != null ? dto.getQuantity() : 0)
+                .notes(dto.getNotes())
+                .date(LocalDateTime.now())
+                .status(parseStatus(dto.getStatus())) // Safe conversion
+                .build();
 
         Distribution saved = distributionRepository.save(distribution);
         return mapToResponseDTO(saved);
     }
 
+    @Transactional
+    public DistributionResponseDTO updateDistribution(DistributionRequestDTO request) {
+        // 1. Fetch the existing record (using Integer ID from DTO)
+        Distribution existingRecord = distributionRepository.findById(request.getDistributionId())
+                .orElseThrow(() -> new RuntimeException("Distribution record not found for ID: " + request.getDistributionId()));
+
+        // 2. Use .toBuilder() to modify only what's provided in the request
+        Distribution updatedEntity = existingRecord.toBuilder()
+                .distributionId(existingRecord.getDistributionId()) // Keep original ID
+                .itemId(request.getItemId() != null ? request.getItemId() : existingRecord.getItemId())
+                .citizenId(request.getCitizenId() != null ? request.getCitizenId() : existingRecord.getCitizenId())
+                .officerId(request.getOfficerId() != null ? request.getOfficerId() : existingRecord.getOfficerId())
+                .quantity(request.getQuantity() != null ? request.getQuantity() : existingRecord.getQuantity())
+                .notes(request.getNotes() != null ? request.getNotes() : existingRecord.getNotes())
+                .status(request.getStatus() != null ? parseStatus(request.getStatus()) : existingRecord.getStatus())
+                .build();
+
+        Distribution savedRecord = distributionRepository.save(updatedEntity);
+        return mapToResponseDTO(savedRecord);
+    }
+
+    // Helper method to map Entity to ResponseDTO
     private DistributionResponseDTO mapToResponseDTO(Distribution distribution) {
         DistributionResponseDTO resp = new DistributionResponseDTO();
-        // Ensure these matches the field names in your ResponseDTO file!
         resp.setDistributionId(distribution.getDistributionId());
         resp.setItemId(distribution.getItemId());
+        resp.setCitizenId(distribution.getCitizenId());
+        resp.setOfficerId(distribution.getOfficerId());
         resp.setQuantity(distribution.getQuantity());
-        resp.setStatus(distribution.getStatus());
-        resp.setDate(distribution.getDate());
         resp.setNotes(distribution.getNotes());
+        resp.setDate(distribution.getDate());
+        // Convert Enum back to String for the Response
+        resp.setStatus(distribution.getStatus() != null ? distribution.getStatus().name() : null);
         return resp;
+    }
+
+    // Helper to safely parse Status from String to Enum
+    private distributionStatus parseStatus(String statusStr) {
+        if (statusStr == null || statusStr.isEmpty()) {
+            return distributionStatus.Pending; // Default fallback
+        }
+        try {
+            return distributionStatus.valueOf(statusStr);
+        } catch (IllegalArgumentException e) {
+            // Handle case where user sends "pending" instead of "Pending"
+            return distributionStatus.Pending;
+        }
     }
 }

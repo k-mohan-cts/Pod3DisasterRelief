@@ -59,7 +59,7 @@ public class ReliefItemService {
         }
         // By explicitly setting the ID, you FORCE JPA to perform an update.
         ReliefItem updatedRecord = record.toBuilder()
-                .itemId(record.getItemId()) // This is the "Insurance Policy"
+                .itemId(record.getItemId())
                 .type(request.getType())
                 .quantity(request.getQuantity())
                 .unit(request.getUnit())
