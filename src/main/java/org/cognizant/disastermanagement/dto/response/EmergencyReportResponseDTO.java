@@ -17,5 +17,5 @@ public class EmergencyReportResponseDTO {
     private ReportStatus status;
     private LocalDateTime date;
 
-    // Getters and Setters
+
 }
