@@ -1,7 +1,8 @@
 package org.cognizant.disastermanagement.controller;
 
 import jakarta.validation.Valid;
-import org.cognizant.disastermanagement.dto.ResourceDTO;
+import org.cognizant.disastermanagement.dto.request.ResourceRequestDTO;
+import org.cognizant.disastermanagement.dto.response.ResourceResponseDTO;
 import org.cognizant.disastermanagement.entity.Resource;
 import org.cognizant.disastermanagement.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,51 +20,60 @@ public class ResourceController {
     @Autowired
     private ResourceService resourceService;
 
-    @PostMapping
-    public ResponseEntity<String> addResource(@RequestParam("programId") int programId, @Valid @RequestBody ResourceDTO dto) {
-        System.out.println(programId);
-        try {
-            Resource entity = toEntity(dto);
-            resourceService.addResource(programId, entity);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Resource saved successfully.");
-        } catch (RuntimeException e) {
-            // This catches the "Program not found" message from your service
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
-        }
+    @PostMapping("/add")
+    public ResponseEntity<ResourceResponseDTO> addResource(@Valid @RequestBody ResourceRequestDTO dto) {
+        Resource entity = toEntity(dto);
+        resourceService.addResource(dto.getProgramId(), entity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDTO(entity));
     }
-    @GetMapping("/viewAll")
-    public ResponseEntity<List<ResourceDTO>> getAllResources() {
-        List<ResourceDTO> list = resourceService.getAllResources()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
-    }
-    // NEW: Logic for Program Manager to consume/use a resource
 
-    // Mapping Methods
-    private ResourceDTO toDTO(Resource entity) {
-        ResourceDTO dto = new ResourceDTO();
+    @PutMapping("/{id}/consume")
+    public ResponseEntity<ResourceResponseDTO> consumeResource(
+            @PathVariable int id,
+            @RequestParam double amount,
+            @RequestParam String receiverName,
+            @RequestParam int managerId) {
+
+        Resource updated = resourceService.consumeResource(id, amount, receiverName, managerId);
+        return ResponseEntity.ok(toResponseDTO(updated));
+    }
+
+    @GetMapping("/viewAll")
+    public ResponseEntity<List<ResourceResponseDTO>> getAllResources() {
+        List<ResourceResponseDTO> responseList = resourceService.getAllResources()
+                .stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseList);
+    }
+
+    // --- MAPPING METHODS ---
+
+    private ResourceResponseDTO toResponseDTO(Resource entity) {
+        ResourceResponseDTO dto = new ResourceResponseDTO();
         dto.setResourceId(entity.getResourceId());
         dto.setName(entity.getName());
         dto.setType(entity.getType());
         dto.setQuantity(entity.getQuantity());
         dto.setUnit(entity.getUnit());
         dto.setStatus(entity.getStatus());
+        dto.setReceivedBy(entity.getReceivedBy());
+
         if (entity.getRecoveryProgram() != null) {
             dto.setProgramId(entity.getRecoveryProgram().getProgramId());
         }
         return dto;
     }
 
-    private Resource toEntity(ResourceDTO dto) {
+    private Resource toEntity(ResourceRequestDTO dto) {
         Resource entity = new Resource();
-        // Do NOT set ResourceID here; MySQL handles it via AUTO_INCREMENT
         entity.setName(dto.getName());
         entity.setType(dto.getType());
         entity.setQuantity(dto.getQuantity());
         entity.setUnit(dto.getUnit());
-        entity.setStatus(dto.getStatus());
+        // Business logic: New resources are set to Available by default
+        entity.setStatus(org.cognizant.disastermanagement.Enum.ResourceStatus.Allocated);
+        entity.setReceivedBy("");
         return entity;
     }
 }

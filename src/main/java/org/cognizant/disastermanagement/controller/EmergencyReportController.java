@@ -16,25 +16,22 @@ public class EmergencyReportController {
         this.service = service;
     }
 
-    // CREATE emergency report
     @PostMapping
     public EmergencyReportDTO createReport(@RequestBody EmergencyReportDTO dto) {
         return service.create(dto);
     }
 
-    // GET all reports
     @GetMapping
     public List<EmergencyReportDTO> getAllReports() {
         return service.getAll();
     }
 
-    // GET report by ID
     @GetMapping("/{id}")
     public EmergencyReportDTO getReportById(@PathVariable int id) {
         return service.getById(id);
     }
 
-    // GET report with citizen details
+    // Endpoint that triggers the getWithCitizen method
     @GetMapping("/{id}/details")
     public EmergencyReportDTO getReportWithCitizen(@PathVariable int id) {
         return service.getWithCitizen(id);

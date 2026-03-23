@@ -1,12 +1,18 @@
 package org.cognizant.disastermanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 import org.cognizant.disastermanagement.Enum.ResourceType;
 import org.cognizant.disastermanagement.Enum.ResourceStatus;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Resource")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Resource {
 
     @Id
@@ -36,27 +42,9 @@ public class Resource {
     @Column(name = "Status")
     private ResourceStatus status;
 
-    public Resource() {}
+    @Column(name = "ReceivedBy", length = 3000)
+    @Builder.Default
+    private String receivedBy = "";
 
-    // --- GETTERS AND SETTERS ---
-    public int getResourceId() { return resourceId; }
-    public void setResourceId(int resourceId) { this.resourceId = resourceId; }
-
-    public RecoveryProgram getRecoveryProgram() { return recoveryProgram; }
-    public void setRecoveryProgram(RecoveryProgram recoveryProgram) { this.recoveryProgram = recoveryProgram; }
-
-    public ResourceType getType() { return type; }
-    public void setType(ResourceType type) { this.type = type; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public double getQuantity() { return quantity; }
-    public void setQuantity(double quantity) { this.quantity = quantity; }
-
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
-
-    public ResourceStatus getStatus() { return status; }
-    public void setStatus(ResourceStatus status) { this.status = status; }
+    // All manual getters and setters have been removed!
 }

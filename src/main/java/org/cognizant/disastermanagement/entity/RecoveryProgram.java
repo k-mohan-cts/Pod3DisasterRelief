@@ -1,9 +1,9 @@
 package org.cognizant.disastermanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.cognizant.disastermanagement.Enum.RecoveryStatus;
 import jakarta.persistence.*;
-import org.cognizant.disastermanagement.dto.RecoveryProgramDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
@@ -13,6 +13,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "RecoveryProgram")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder // Allows you to create objects using RecoveryProgram.builder()...
 public class RecoveryProgram {
 
     @Id
@@ -50,46 +55,8 @@ public class RecoveryProgram {
     @Column(name = "UpdatedAt")
     private LocalDateTime updatedAt;
 
-    // fetch = FetchType.EAGER ensures resources are loaded before JSON conversion
     @OneToMany(mappedBy = "recoveryProgram", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
+    @Builder.Default // Prevents the list from being null when using the Builder
     private List<Resource> resources = new ArrayList<>();
-
-
-    public RecoveryProgram(RecoveryProgramDTO recoveryProgramDTO){
-
-    }
-
-    public RecoveryProgram() {}
-
-    // --- GETTERS AND SETTERS ---
-    public int getProgramId() { return programId; }
-    public void setProgramId(int programId) { this.programId = programId; }
-
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
-    public Integer getManagerId() { return managerId; }
-    public void setManagerId(Integer managerId) { this.managerId = managerId; }
-
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
-
-    public LocalDate getEndDate() { return endDate; }
-    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
-
-    public double getBudget() { return budget; }
-    public void setBudget(double budget) { this.budget = budget; }
-
-    public RecoveryStatus getStatus() { return status; }
-    public void setStatus(RecoveryStatus status) { this.status = status; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-
-    public List<Resource> getResources() { return resources; }
-    public void setResources(List<Resource> resources) { this.resources = resources; }
 }
