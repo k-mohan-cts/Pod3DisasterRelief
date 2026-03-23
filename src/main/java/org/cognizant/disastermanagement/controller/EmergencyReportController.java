@@ -1,6 +1,8 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.dto.EmergencyReportDTO;
+import org.cognizant.disastermanagement.dto.request.EmergencyReportRequestDTO;
+import org.cognizant.disastermanagement.dto.response.EmergencyReportResponseDTO;
+import org.cognizant.disastermanagement.dto.response.EmergencyReportDetailsResponseDTO;
 import org.cognizant.disastermanagement.service.EmergencyReportService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,24 +18,33 @@ public class EmergencyReportController {
         this.service = service;
     }
 
+    // CREATE REPORT
     @PostMapping
-    public EmergencyReportDTO createReport(@RequestBody EmergencyReportDTO dto) {
-        return service.create(dto);
+    public EmergencyReportResponseDTO createReport(@RequestBody EmergencyReportRequestDTO requestDTO) {
+        return service.createReport(requestDTO);
     }
 
+    // GET ALL REPORTS
     @GetMapping
-    public List<EmergencyReportDTO> getAllReports() {
-        return service.getAll();
+    public List<EmergencyReportResponseDTO> getAllReports() {
+        return service.getAllReports();
     }
 
+    // GET REPORT BY ID
     @GetMapping("/{id}")
-    public EmergencyReportDTO getReportById(@PathVariable int id) {
-        return service.getById(id);
+    public EmergencyReportResponseDTO getReportById(@PathVariable int id) {
+        return service.getReportById(id);
     }
 
-    // Endpoint that triggers the getWithCitizen method
+    // GET REPORT WITH CITIZEN DETAILS
     @GetMapping("/{id}/details")
-    public EmergencyReportDTO getReportWithCitizen(@PathVariable int id) {
-        return service.getWithCitizen(id);
+    public EmergencyReportDetailsResponseDTO getReportWithCitizen(@PathVariable int id) {
+        return service.getReportWithCitizen(id);
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteReport(@PathVariable int id) {
+        return service.deleteReport(id);
+    }
+
 }

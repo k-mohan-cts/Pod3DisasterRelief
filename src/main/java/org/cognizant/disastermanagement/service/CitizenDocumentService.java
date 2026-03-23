@@ -1,42 +1,50 @@
 package org.cognizant.disastermanagement.service;
 
-import org.cognizant.disastermanagement.entity.Citizen;
-import org.cognizant.disastermanagement.entity.CitizenDocument;
 import org.cognizant.disastermanagement.dao.CitizenDocumentRepository;
 import org.cognizant.disastermanagement.dao.CitizenRepository;
+import org.cognizant.disastermanagement.dto.request.CitizenDocumentRequestDTO;
+import org.cognizant.disastermanagement.entity.Citizen;
+import org.cognizant.disastermanagement.entity.CitizenDocument;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CitizenDocumentService {
 
-    private final CitizenDocumentRepository documentRepo;
+    private final CitizenDocumentRepository documentRepository;
     private final CitizenRepository citizenRepository;
 
-    public CitizenDocumentService(
-            CitizenDocumentRepository documentRepo,
-            CitizenRepository citizenRepository) {
-        this.documentRepo = documentRepo;
+    public CitizenDocumentService(CitizenDocumentRepository documentRepository,
+                                  CitizenRepository citizenRepository) {
+        this.documentRepository = documentRepository;
         this.citizenRepository = citizenRepository;
     }
 
-    public CitizenDocument uploadDocument(CitizenDocument doc) {
+    // ✅ UPLOAD DOCUMENT
+    public CitizenDocument uploadDocument(CitizenDocumentRequestDTO requestDTO) {
 
-        // ✅ LOAD managed Citizen from DB (CRITICAL FIX)
-        int citizenId = doc.getCitizen().getCitizenId();
-        Citizen citizen = citizenRepository.findById(citizenId)
-                .orElseThrow(() -> new RuntimeException("Citizen not found"));
+        Citizen citizen = citizenRepository.findById(requestDTO.getCitizenId())
+                .orElseThrow(() ->
+                        new RuntimeException("Citizen not found with ID: "
+                                + requestDTO.getCitizenId()));
 
-        doc.setCitizen(citizen);
+        CitizenDocument document = new CitizenDocument();
+        document.setCitizen(citizen);
+        document.setDocType(requestDTO.getDocType());
+        document.setFileURI(requestDTO.getFileURI());
+        document.setVerificationStatus(requestDTO.getVerificationStatus());
 
-        return documentRepo.save(doc);
+        return documentRepository.save(document);
     }
 
+    // ✅ GET BY ID
     public CitizenDocument getDocumentById(int docId) {
-        return documentRepo.findById(docId)
-                .orElseThrow(() -> new RuntimeException("CitizenDocument not found"));
+        return documentRepository.findById(docId)
+                .orElseThrow(() ->
+                        new RuntimeException("CitizenDocument not found with ID: " + docId));
     }
 
+    // ✅ DELETE
     public void deleteDocument(int docId) {
-        documentRepo.deleteById(docId);
+        documentRepository.deleteById(docId);
     }
 }

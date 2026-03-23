@@ -3,7 +3,9 @@ package org.cognizant.disastermanagement.service;
 import org.cognizant.disastermanagement.dao.EmergencyRepository;
 import org.cognizant.disastermanagement.dao.IncidentRepository;
 import org.cognizant.disastermanagement.dao.UserRepository;
-import org.cognizant.disastermanagement.dto.IncidentDTO;
+import org.cognizant.disastermanagement.dto.request.IncidentRequestDTO;
+import org.cognizant.disastermanagement.dto.request.IncidentStatusUpdateRequestDTO;
+import org.cognizant.disastermanagement.dto.response.IncidentResponseDTO;
 import org.cognizant.disastermanagement.entity.EmergencyReport;
 import org.cognizant.disastermanagement.entity.Incident;
 import org.cognizant.disastermanagement.entity.User;
@@ -29,44 +31,58 @@ public class IncidentService {
         this.userRepo = userRepo;
     }
 
+
+    // --------------------------------------
     // CREATE INCIDENT
-    public IncidentDTO create(IncidentDTO dto) {
+    // --------------------------------------
+    public IncidentResponseDTO createIncident(IncidentRequestDTO req) {
 
-        EmergencyReport report = reportRepo.findById(dto.getReportId())
+        EmergencyReport report = reportRepo.findById(req.getReportId())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Report not found with ID: " + dto.getReportId()));
+                        new ResourceNotFoundException("Report not found with ID: " + req.getReportId()));
 
-        User officer = userRepo.findById(dto.getOfficerId())
+        User officer = userRepo.findById(req.getOfficerId())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Officer not found with ID: " + dto.getOfficerId()));
+                        new ResourceNotFoundException("Officer not found with ID: " + req.getOfficerId()));
 
-        Incident incident = new Incident(dto);
+        Incident incident = new Incident();
         incident.setEmergencyReport(report);
         incident.setOfficer(officer);
+        incident.setActions(req.getActions());
+        incident.setStatus(req.getStatus());
 
         Incident saved = incidentRepo.save(incident);
 
-        return toDTO(saved);
+        return toResponseDTO(saved);
     }
 
+
+    // --------------------------------------
     // GET ALL INCIDENTS
-    public List<IncidentDTO> getAll() {
+    // --------------------------------------
+    public List<IncidentResponseDTO> getAllIncidents() {
         return incidentRepo.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
-    public IncidentDTO getById(int id) {
+
+    // --------------------------------------
+    // GET INCIDENT BY ID
+    // --------------------------------------
+    public IncidentResponseDTO getIncidentById(int id) {
         Incident incident = incidentRepo.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Incident not found with ID: " + id));
-        return toDTO(incident);
+        return toResponseDTO(incident);
     }
 
-    // UPDATE STATUS
-    public IncidentDTO updateStatus(int id, String status) {
+
+    // --------------------------------------
+    // UPDATE INCIDENT STATUS
+    // --------------------------------------
+    public IncidentResponseDTO updateIncidentStatus(int id, String status) {
 
         Incident incident = incidentRepo.findById(id)
                 .orElseThrow(() ->
@@ -76,11 +92,14 @@ public class IncidentService {
 
         Incident updated = incidentRepo.save(incident);
 
-        return toDTO(updated);
+        return toResponseDTO(updated);
     }
 
-    // ASSIGN OFFICER
-    public IncidentDTO assignOfficer(int id, int officerId) {
+
+    // --------------------------------------
+    // ASSIGN OFFICER TO INCIDENT
+    // --------------------------------------
+    public IncidentResponseDTO assignOfficer(int id, int officerId) {
 
         Incident incident = incidentRepo.findById(id)
                 .orElseThrow(() ->
@@ -94,13 +113,32 @@ public class IncidentService {
 
         Incident updated = incidentRepo.save(incident);
 
-        return toDTO(updated);
+        return toResponseDTO(updated);
     }
 
-    // ENTITY → DTO
-    private IncidentDTO toDTO(Incident entity) {
 
-        IncidentDTO dto = new IncidentDTO();
+    // --------------------------------------
+    // DELETE INCIDENT
+    // --------------------------------------
+    public String deleteIncident(int id) {
+
+        Incident incident = incidentRepo.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Incident not found with ID: " + id));
+
+        incidentRepo.delete(incident);
+
+        return "Incident deleted successfully with ID: " + id;
+    }
+
+
+
+    // --------------------------------------
+    // ENTITY → RESPONSE DTO
+    // --------------------------------------
+    private IncidentResponseDTO toResponseDTO(Incident entity) {
+
+        IncidentResponseDTO dto = new IncidentResponseDTO();
 
         dto.setIncidentId(entity.getIncidentId());
         dto.setActions(entity.getActions());
