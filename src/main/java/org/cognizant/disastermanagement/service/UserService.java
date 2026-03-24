@@ -18,10 +18,9 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRequestDTO userRequestDTO;
+
     public User createUser(User user) {
-        user.setPasswordHash(passwordEncoder.encode(userRequestDTO.getPasswordHash()));
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         return userRepository.save(user);
     }
     @Autowired
