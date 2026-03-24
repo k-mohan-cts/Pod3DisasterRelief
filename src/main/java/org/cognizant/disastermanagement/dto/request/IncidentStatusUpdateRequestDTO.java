@@ -6,10 +6,6 @@ import lombok.Data;
 @Data
 public class IncidentStatusUpdateRequestDTO {
 
-
-
     @NotBlank(message = "Status is required")
     private String status;
-
-    // Getter and Setter
 }
