@@ -9,6 +9,7 @@ import org.cognizant.disastermanagement.Enum.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import lombok.Data;
 
@@ -19,6 +20,10 @@ public class UserRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotBlank(message = "Name cannot be blank")
+    @Pattern(
+            regexp = "^[A-Za-z ]+$",
+            message = "Name must contain only alphabets and spaces"
+    )
     private String name;
 
     @NotNull(message = "Role cannot be null")
@@ -28,6 +33,11 @@ public class UserRequestDTO implements Serializable {
     @Email(message = "Email format is invalid")
     private String email;
 
+    @NotBlank(message = "Phone number cannot be blank")
+    @Pattern(
+            regexp = "^[0-9]{10}$",
+            message = "Phone number must be exactly 10 digits"
+    )
     private String phone;
 
     @NotBlank(message = "Password cannot be blank")
@@ -36,7 +46,7 @@ public class UserRequestDTO implements Serializable {
     @NotNull(message = "Status cannot be null")
     private UserStatus status;
 
-    // Explicit getters & setters (same as ReliefItemRequestDTO style)
+    // Explicit getters & setters (as you requested)
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

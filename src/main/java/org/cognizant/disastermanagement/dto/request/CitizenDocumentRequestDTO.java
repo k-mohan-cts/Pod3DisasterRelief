@@ -8,6 +8,7 @@ import org.cognizant.disastermanagement.Enum.VerificationStatus;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
 import lombok.Data;
@@ -26,10 +27,16 @@ public class CitizenDocumentRequestDTO implements Serializable {
     private DocType docType;
 
     @NotBlank(message = "File URI must not be blank")
+    @Pattern(
+            regexp = "^[a-zA-Z0-9_./-]+$",
+            message = "File URI contains invalid characters"
+    )
     private String fileURI;
 
     @NotNull(message = "Verification status must not be null")
     private VerificationStatus verificationStatus;
+
+    // Explicit getters & setters (same style as others)
 
     public Integer getCitizenId() { return citizenId; }
     public void setCitizenId(Integer citizenId) { this.citizenId = citizenId; }

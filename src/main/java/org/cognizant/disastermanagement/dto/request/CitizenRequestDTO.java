@@ -10,6 +10,7 @@ import org.cognizant.disastermanagement.Enum.CitizenStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Pattern;
 
 import lombok.Data;
 
@@ -20,6 +21,10 @@ public class CitizenRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotBlank(message = "Name cannot be blank")
+    @Pattern(
+            regexp = "^[A-Za-z ]+$",
+            message = "Name must contain only alphabets and spaces"
+    )
     private String name;
 
     private LocalDate dob;
@@ -29,6 +34,11 @@ public class CitizenRequestDTO implements Serializable {
     @NotBlank(message = "Address cannot be blank")
     private String address;
 
+    @NotBlank(message = "Contact information cannot be blank")
+    @Pattern(
+            regexp = "^[0-9]{10}$",
+            message = "Contact number must be exactly 10 digits"
+    )
     private String contactInfo;
 
     @NotNull(message = "Status cannot be null")
@@ -38,7 +48,7 @@ public class CitizenRequestDTO implements Serializable {
     @Positive(message = "User ID must be greater than zero")
     private Integer userId;
 
-    // Explicit getters & setters
+    // Explicit getters & setters (same style used everywhere)
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
