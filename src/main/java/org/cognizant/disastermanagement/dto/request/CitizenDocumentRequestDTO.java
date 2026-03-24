@@ -9,13 +9,10 @@ import org.cognizant.disastermanagement.Enum.VerificationStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class CitizenDocumentRequestDTO implements Serializable {
 
     @Serial
@@ -33,4 +30,18 @@ public class CitizenDocumentRequestDTO implements Serializable {
 
     @NotNull(message = "Verification status must not be null")
     private VerificationStatus verificationStatus;
+
+    public Integer getCitizenId() { return citizenId; }
+    public void setCitizenId(Integer citizenId) { this.citizenId = citizenId; }
+
+    public DocType getDocType() { return docType; }
+    public void setDocType(DocType docType) { this.docType = docType; }
+
+    public String getFileURI() { return fileURI; }
+    public void setFileURI(String fileURI) { this.fileURI = fileURI; }
+
+    public VerificationStatus getVerificationStatus() { return verificationStatus; }
+    public void setVerificationStatus(VerificationStatus verificationStatus) {
+        this.verificationStatus = verificationStatus;
+    }
 }
