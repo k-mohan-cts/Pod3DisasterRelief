@@ -1,9 +1,9 @@
 package org.cognizant.disastermanagement.service;
+import org.cognizant.disastermanagement.dao.DistributionRepository;
 import org.cognizant.disastermanagement.dao.ReliefItemRepository;
-import org.cognizant.disastermanagement.dto.ReliefItemRequestDTO;
-import org.cognizant.disastermanagement.dto.ReliefItemResponseDTO;
+import org.cognizant.disastermanagement.dto.request.ReliefItemRequestDTO;
+import org.cognizant.disastermanagement.dto.response.ReliefItemResponseDTO;
 import org.cognizant.disastermanagement.entity.ReliefItem;
-import org.cognizant.disastermanagement.entity.Shelter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,9 @@ import java.util.List;
 public class ReliefItemService {
     @Autowired
     private  ReliefItemRepository reliefItemsRepository;
+
+    @Autowired
+    private DistributionRepository distributionRepository;
 
     public ReliefItemService(ReliefItemRepository reliefItemsRepository){
         this.reliefItemsRepository = reliefItemsRepository;
@@ -51,6 +54,23 @@ public class ReliefItemService {
         resp.setUpdatedAt(item.getUpdatedAt());
         return resp;
     }
+
+    public void deleteReliefItem(int id) {
+        // 1. Check if the item even exists
+        if (!reliefItemsRepository.existsById(id)) {
+            throw new RuntimeException("Relief Item not found with ID: " + id);
+        }
+
+        // This prevents the Foreign Key Constraint error
+        boolean isUsed = distributionRepository.existsByItemId(id);
+        if (isUsed) {
+            throw new RuntimeException("Cannot delete: This item is currently assigned to a distribution record.");
+        }
+
+
+        reliefItemsRepository.deleteById(id);
+    }
+
     public ReliefItemResponseDTO updateReliefItem(ReliefItemRequestDTO request) {
         ReliefItem record = reliefItemsRepository.findByName(request.getName());
 
@@ -59,7 +79,7 @@ public class ReliefItemService {
         }
         // By explicitly setting the ID, you FORCE JPA to perform an update.
         ReliefItem updatedRecord = record.toBuilder()
-                .itemId(record.getItemId()) // This is the "Insurance Policy"
+                .itemId(record.getItemId())
                 .type(request.getType())
                 .quantity(request.getQuantity())
                 .unit(request.getUnit())

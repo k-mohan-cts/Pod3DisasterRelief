@@ -1,7 +1,7 @@
 package org.cognizant.disastermanagement.controller;
 
-import org.cognizant.disastermanagement.dto.DistributionRequestDTO;
-import org.cognizant.disastermanagement.dto.DistributionResponseDTO;
+import org.cognizant.disastermanagement.dto.request.DistributionRequestDTO;
+import org.cognizant.disastermanagement.dto.response.DistributionResponseDTO;
 import org.cognizant.disastermanagement.service.DistributionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +19,34 @@ public class DistributionController {
         this.distributionService = distributionService;
     }
 
-    // 1. GET: Fetch all distribution records as DTOs
+    // 1. GET: Fetch all distribution records
     @GetMapping
     public ResponseEntity<List<DistributionResponseDTO>> getDistributions() {
         List<DistributionResponseDTO> responseList = distributionService.getAllDistributions();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    // 2. POST: Create a new distribution record using RequestDTO
+    // 2. POST: Create a new record
     @PostMapping
     public ResponseEntity<DistributionResponseDTO> createDistribution(@RequestBody DistributionRequestDTO requestDto) {
         DistributionResponseDTO response = distributionService.saveDistribution(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    // 3. PUT: Update an existing record
+    // Added /{id} to the path so you can specify which one to update in the URL
+    @PutMapping("/{id}")
+    public ResponseEntity<DistributionResponseDTO> update(@PathVariable Integer id, @RequestBody DistributionRequestDTO request) {
+        // We force the ID from the URL into the DTO to ensure consistency
+        request.setDistributionId(id);
+
+        DistributionResponseDTO response = distributionService.updateDistribution(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
+        distributionService.deleteDistribution(id);
+        return ResponseEntity.ok("Record with ID " + id + " has been deleted successfully.");
     }
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DistributionRepository extends JpaRepository<Distribution, Integer> {
-
+    boolean existsByItemId(int itemId);
 }
