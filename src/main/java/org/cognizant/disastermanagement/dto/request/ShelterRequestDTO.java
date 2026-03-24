@@ -1,11 +1,8 @@
 package org.cognizant.disastermanagement.dto.request;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.shelterStatus;
-import jakarta.validation.constraints.NotNull;
 
 @Data
 public class ShelterRequestDTO {
@@ -16,21 +13,30 @@ public class ShelterRequestDTO {
     @NotBlank(message="Location cannot be blank")
     private String location;
 
-    @NotNull(message="coordinates cant be empty")
+    @NotNull(message = "Latitude is required")
+    @DecimalMin(value = "-90.0", message = "Latitude must be between -90 and 90")
+    @DecimalMax(value = "90.0", message = "Latitude must be between -90 and 90")
     private Double latitude;
 
-    @NotNull(message="coordinates cant be empty")
+    @NotNull(message = "Longitude is required")
+    @DecimalMin(value = "-90.0", message = "Latitude must be between -90 and 90")
+    @DecimalMax(value = "90.0", message = "Latitude must be between -90 and 90")
     private Double longitude;
 
     @DecimalMin(value = "1", message = "Quantity must be at least 1")
+    @NotNull(message = "Capacity cannot be null")
+    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
     private int capacity;
 
     @Positive(message="Occupancy cannot be negative")
+    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
     private int occupancy;
 
+    @NotNull(message = "Status cannot be Empty")
     private shelterStatus status;
 
-    @NotNull
+    @NotNull(message = "Contact Info cannot be empty")
+    @Size(min = 10, max = 10 , message = "The number should be exactly 10 digit long !")
     private String contactInfo;
 
     // Standard Getters and Setters

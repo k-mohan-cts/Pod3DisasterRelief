@@ -1,5 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
+import jakarta.validation.Valid;
 import org.cognizant.disastermanagement.dto.request.DistributionRequestDTO;
 import org.cognizant.disastermanagement.dto.response.DistributionResponseDTO;
 import org.cognizant.disastermanagement.service.DistributionService;
@@ -28,7 +29,7 @@ public class DistributionController {
 
     // 2. POST: Create a new record
     @PostMapping
-    public ResponseEntity<DistributionResponseDTO> createDistribution(@RequestBody DistributionRequestDTO requestDto) {
+    public ResponseEntity<DistributionResponseDTO> createDistribution(@RequestBody @Valid DistributionRequestDTO requestDto) {
         DistributionResponseDTO response = distributionService.saveDistribution(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

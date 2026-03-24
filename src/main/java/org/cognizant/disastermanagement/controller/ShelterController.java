@@ -1,5 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
+import jakarta.validation.Valid;
 import org.cognizant.disastermanagement.dto.request.ShelterRequestDTO;
 import org.cognizant.disastermanagement.dto.response.ShelterResponseDTO;
 import org.cognizant.disastermanagement.service.ShelterService;
@@ -28,7 +29,7 @@ public class ShelterController {
     // 2. POST: http://localhost:1234/Shelters
     // Receives RequestDTO and returns ResponseDTO
     @PostMapping
-    public ResponseEntity<ShelterResponseDTO> createShelter(@RequestBody ShelterRequestDTO requestDto) {
+    public ResponseEntity<ShelterResponseDTO> createShelter(@RequestBody @Valid ShelterRequestDTO requestDto) {
         ShelterResponseDTO response = shelterService.addShelter(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

@@ -69,6 +69,8 @@ public class ShelterService {
 
         return response;
     }
+
+
     public ShelterResponseDTO updateShelters(ShelterRequestDTO request) {
         Shelter record = shelterRepository.findByName(request.getName());
 
