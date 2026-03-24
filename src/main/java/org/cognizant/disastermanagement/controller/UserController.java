@@ -18,7 +18,11 @@ public class UserController {
         System.out.println(user.getName()+" "+user.getPasswordHash());
         return userService.createUser(user);
     }
-
+    @PostMapping("/login")
+    public String UserLoginValidation(@RequestBody  User user){
+        System.out.println(user.getUserId()+" "+user.getPasswordHash());
+        return userService.UserLoginValidation(user);
+    }
     @GetMapping("/getByUserId/{id}")
     public User getUserById(@PathVariable int id) {
         return userService.getUserById(id);
