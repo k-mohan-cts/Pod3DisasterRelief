@@ -32,9 +32,13 @@ public class UserService {
     public String UserLoginValidation(User user) {
         System.out.println(user.getEmail() +" password:"+user.getPasswordHash());
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(user.getUserId().toString(),user.getPasswordHash()));
-        if(authentication.isAuthenticated())
-            return jwtService.generateToken(user.getUserId().toString());
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPasswordHash()));
+        if(authentication.isAuthenticated()) {
+            User loggedUser = userRepository.findByEmail(user.getEmail()).orElse(null);
+            if(loggedUser != null) {
+                return jwtService.generateToken(user.getEmail(), loggedUser.getRole().name());
+            }
+        }
         return "fail";
     }
     public User getUserById(int userId) {

@@ -14,21 +14,14 @@ public class SecurityServiceImpl implements UserDetailsService {
     private UserRepository UserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // Must be this exception
-        try {
-            Long userID = Long.parseLong(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // username is email
+        User user = UserRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
 
-            User user = UserRepository.findById(Math.toIntExact(userID))
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userID));
-
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getUserId().toString())
-                    .password(user.getPasswordHash()) // Remember: this must be a BCrypt hash now!
-                    .roles(String.valueOf(user.getRole()))
-                    .build();
-
-        } catch (NumberFormatException e) {
-            throw new UsernameNotFoundException("User ID must be a numeric value");
-        }
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPasswordHash())
+                .roles(String.valueOf(user.getRole()))
+                .build();
     }
 }

@@ -34,7 +34,7 @@ public class UserController {
     }
     @PostMapping("/login")
     public String UserLoginValidation(@RequestBody  User user){
-        System.out.println(user.getUserId()+" "+user.getPasswordHash());
+        System.out.println(user.getEmail()+" "+user.getPasswordHash());
         return userService.UserLoginValidation(user);
     }
     @GetMapping("/getByUserId/{id}")

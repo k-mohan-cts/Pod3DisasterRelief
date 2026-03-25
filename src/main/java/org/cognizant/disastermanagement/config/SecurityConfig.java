@@ -3,7 +3,6 @@ import org.cognizant.disastermanagement.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -31,11 +30,13 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/User/login", "/User/register").permitAll() // ALLOW THESE WITHOUT LOGIN
-                                .requestMatchers(HttpMethod.GET, "/api/v1/programs/**", "/api/v1/budgets/**").permitAll()
-//                        .requestMatchers("/User/register").hasRole("APPLICANT")
-                                .requestMatchers("/api/v1/programs/createProgram", "/api/v1/programs/update", "/api/v1/programs/").hasRole("MANAGER")
-                                .requestMatchers(HttpMethod.PATCH, "/api/v1/programs/**", "/api/v1/budgets/**").hasRole("MANAGER")
+                                .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
+                                .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
+                                .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
+                                .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
+                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
+                                .requestMatchers("/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
+                                .requestMatchers("/api/users/**").hasRole("ADMIN")
                                 .anyRequest().authenticated() // LOCK EVERYTHING ELSE
                 )
 

@@ -2,14 +2,11 @@ package org.cognizant.disastermanagement.controller;
 
 import org.cognizant.disastermanagement.dto.request.CitizenRequestDTO;
 import org.cognizant.disastermanagement.entity.Citizen;
-import org.cognizant.disastermanagement.entity.User;
 import org.cognizant.disastermanagement.service.CitizenService;
-import org.cognizant.disastermanagement.service.UserService;
-
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/citizens")
@@ -18,25 +15,9 @@ public class CitizenController {
     @Autowired
     private CitizenService citizenService;
 
-    @Autowired
-    private UserService userService;
-
-    // ✅ CREATE CITIZEN WITH VALIDATION
     @PostMapping("/createCitizen")
     public Citizen createCitizen(@Valid @RequestBody CitizenRequestDTO requestDTO) {
-
-        User user = userService.getUserById(requestDTO.getUserId());
-
-        Citizen citizen = new Citizen();
-        citizen.setName(requestDTO.getName());
-        citizen.setDob(requestDTO.getDob());
-        citizen.setGender(requestDTO.getGender());
-        citizen.setAddress(requestDTO.getAddress());
-        citizen.setContactInfo(requestDTO.getContactInfo());
-        citizen.setStatus(requestDTO.getStatus());
-        citizen.setUser(user);
-
-        return citizenService.createCitizen(citizen);
+        return citizenService.createCitizenWithUser(requestDTO);
     }
 
     @GetMapping("/getCitizenById/{id}")
@@ -44,25 +25,22 @@ public class CitizenController {
         return citizenService.getCitizenById(id);
     }
 
-    // ✅ UPDATE WITH VALIDATION
+    @GetMapping("/getAllCitizens")
+    public List<Citizen> getAllCitizens() {
+        return citizenService.getAllCitizens();
+    }
+
     @PutMapping("/update/{id}")
-    public Citizen updateCitizen(
-            @PathVariable int id,
-            @Valid @RequestBody CitizenRequestDTO requestDTO) {
-
-        User user = userService.getUserById(requestDTO.getUserId());
-
-        Citizen citizen = new Citizen();
-        citizen.setCitizenId(id);
-        citizen.setName(requestDTO.getName());
-        citizen.setDob(requestDTO.getDob());
-        citizen.setGender(requestDTO.getGender());
-        citizen.setAddress(requestDTO.getAddress());
-        citizen.setContactInfo(requestDTO.getContactInfo());
-        citizen.setStatus(requestDTO.getStatus());
-        citizen.setUser(user);
-
-        return citizenService.updateCitizen(id, citizen);
+    public Citizen updateCitizen(@PathVariable int id, @Valid @RequestBody CitizenRequestDTO requestDTO) {
+        Citizen existing = citizenService.getCitizenById(id);
+        if (existing != null) {
+            existing.setDob(requestDTO.getDob());
+            existing.setGender(requestDTO.getGender());
+            existing.setAddress(requestDTO.getAddress());
+            existing.setContactInfo(requestDTO.getPhone()); // Keep synced
+            return citizenService.updateCitizen(id, existing);
+        }
+        return null;
     }
 
     @DeleteMapping("/delete/{id}")
