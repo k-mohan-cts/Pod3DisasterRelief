@@ -51,6 +51,15 @@ public class ShelterService {
                 .collect(Collectors.toList());
     }
 
+    public ShelterResponseDTO getShelterById(Integer id) {
+        // 1. Fetch from DB
+        Shelter shelter = shelterRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Shelter not found with ID: " + id));
+
+        // 2. Manual Mapping (Entity -> DTO)
+        return mapToResponseDTO(shelter);
+    }
+
     // Helper Method: Map Entity -> ResponseDTO
     private ShelterResponseDTO mapToResponseDTO(Shelter shelter) {
         ShelterResponseDTO response = new ShelterResponseDTO();
@@ -86,6 +95,16 @@ public class ShelterService {
                 .build();
         Shelter savedRecord = shelterRepository.save(updatedRecord);
         return mapToResponseDTO(savedRecord);
+    }
+
+    public void deleteShelter(Integer id) {
+        // 1. Check if it exists
+        if (!shelterRepository.existsById(id)) {
+            throw new RuntimeException("Cannot delete: Shelter not found with ID: " + id);
+        }
+
+        // 2. Perform the deletion
+        shelterRepository.deleteById(id);
     }
 
 }

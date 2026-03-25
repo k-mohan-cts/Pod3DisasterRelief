@@ -27,6 +27,15 @@ public class DistributionService {
                 .collect(Collectors.toList());
     }
 
+    public DistributionResponseDTO getDistributionById(Integer id) {
+        // 1. Fetch the entity
+        Distribution distribution = distributionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Distribution record not found with ID: " + id));
+
+        // 2. Map to DTO manually
+        return mapToResponseDTO(distribution);
+    }
+
     @Transactional
     public DistributionResponseDTO saveDistribution(DistributionRequestDTO dto) {
         // Use the Builder for consistency and null-safety

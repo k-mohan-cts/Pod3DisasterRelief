@@ -16,7 +16,7 @@ public class ReliefItemRequestDTO {
     private String name;
 
     @PositiveOrZero(message = "Quantity must be at least 0")
-    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
+    @NotNull(message = "Quantity cannot be Empty")
     private Integer quantity;
 
     @NotNull(message = " Unit must contain a value")

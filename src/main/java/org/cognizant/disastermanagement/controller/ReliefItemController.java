@@ -27,6 +27,12 @@ public class ReliefItemController {
         return reliefItemService.getAllReliefItem();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ReliefItemResponseDTO> getById(@PathVariable Integer id) {
+        ReliefItemResponseDTO response = reliefItemService.getReliefItemById(id);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<ReliefItemResponseDTO> createReliefItem(@RequestBody @Valid ReliefItemRequestDTO reliefItemDto){
         return ResponseEntity.ok(reliefItemService.saveReliefItem(reliefItemDto));

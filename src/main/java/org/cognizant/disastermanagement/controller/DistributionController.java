@@ -27,6 +27,12 @@ public class DistributionController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DistributionResponseDTO> getById(@PathVariable Integer id) {
+        DistributionResponseDTO response = distributionService.getDistributionById(id);
+        return ResponseEntity.ok(response);
+    }
+
     // 2. POST: Create a new record
     @PostMapping
     public ResponseEntity<DistributionResponseDTO> createDistribution(@RequestBody @Valid DistributionRequestDTO requestDto) {

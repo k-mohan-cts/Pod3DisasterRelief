@@ -11,19 +11,19 @@ public class DistributionRequestDTO {
     private Integer distributionId;
 
     @Positive(message="Item ID cant be negative and cannot have decimals")
-    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
+    @NotNull(message = "Item ID cannot be Empty")
     private Integer itemId;
 
     @Positive(message="Citizen ID cant be negative and cannot have decimals")
-    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
+    @NotNull(message = "Citizen ID cannot be Empty")
     private Integer citizenId;
 
     @Positive(message="Officer ID cant be negative and cannot have decimals")
-    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
+    @NotNull(message = "Officer ID cannot be Empty")
     private Integer officerId;
 
     @PositiveOrZero(message = "Quantity must be at least 0")
-    @Pattern(regexp = "^[0-9]*$", message = "Input must contain only numbers")
+    @NotNull(message = "Quantity cannot be Empty")
     private Integer quantity;
 
     @NotBlank(message = "Notes cannot be null")
@@ -31,6 +31,7 @@ public class DistributionRequestDTO {
 
     // Receiving status as a String is much more stable for JSON input
     @NotNull(message = "Please provide a valid status")
+    @Pattern(regexp = "PENDING | APPROVED| DISTRIBUTED| CANCELLED", message = "Status must be PENDING, APPROVED, DISTRIBUTED or CANCELLED")
     private String status;
 
     // Standard Getters and Setters
