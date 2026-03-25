@@ -21,17 +21,23 @@ public class ReliefItemController {
         this.reliefItemService = reliefItemService;
     }
 
-    @GetMapping("/getallrelief")
+    @GetMapping("/getReliefItem")
     public List<ReliefItemResponseDTO> getReliefItem(){
         return reliefItemService.getAllReliefItem();
     }
 
-    @PostMapping
-    public ResponseEntity<ReliefItemResponseDTO> createReliefItem(@RequestBody ReliefItemRequestDTO reliefItemDto){
+    @GetMapping("/getReliefItemById/{id}")
+    public ResponseEntity<ReliefItemResponseDTO> getReliefItemById(@PathVariable Integer id) {
+        ReliefItemResponseDTO response = reliefItemService.getReliefItemById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/createReliefItem")
+    public ResponseEntity<ReliefItemResponseDTO> createReliefItem(@RequestBody @Valid ReliefItemRequestDTO reliefItemDto){
         return ResponseEntity.ok(reliefItemService.saveReliefItem(reliefItemDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateReliefItem/{id}")
     public ResponseEntity<ReliefItemResponseDTO> updateReliefItem(
             @PathVariable Integer id,
             @RequestBody ReliefItemRequestDTO reliefItemDto
@@ -43,8 +49,8 @@ public class ReliefItemController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") int id) {
+    @DeleteMapping("deleteReliefItem/{id}")
+    public ResponseEntity<String> deleteReliefItem(@PathVariable("id") int id) {
         try {
             reliefItemService.deleteReliefItem(id);
             return ResponseEntity.ok("Relief Item with ID " + id + " deleted successfully.");

@@ -3,6 +3,7 @@ package org.cognizant.disastermanagement.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 @Data
 public class DistributionRequestDTO {
@@ -10,22 +11,27 @@ public class DistributionRequestDTO {
     private Integer distributionId;
 
     @Positive(message="Item ID cant be negative and cannot have decimals")
+    @NotNull(message = "Item ID cannot be Empty")
     private Integer itemId;
 
     @Positive(message="Citizen ID cant be negative and cannot have decimals")
+    @NotNull(message = "Citizen ID cannot be Empty")
     private Integer citizenId;
 
     @Positive(message="Officer ID cant be negative and cannot have decimals")
+    @NotNull(message = "Officer ID cannot be Empty")
     private Integer officerId;
 
-    @PositiveOrZero(message = "Quantity must be at least 0.1")
+    @PositiveOrZero(message = "Quantity must be at least 0")
+    @NotNull(message = "Quantity cannot be Empty")
     private Integer quantity;
 
     @NotBlank(message = "Notes cannot be null")
     private String notes;
 
     // Receiving status as a String is much more stable for JSON input
-    @NotNull
+    @NotNull(message = "Please provide a valid status")
+    @Pattern(regexp = "PENDING | APPROVED| DISTRIBUTED| CANCELLED", message = "Status must be PENDING, APPROVED, DISTRIBUTED or CANCELLED")
     private String status;
 
     // Standard Getters and Setters

@@ -1,5 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
+import jakarta.validation.Valid;
 import org.cognizant.disastermanagement.dto.request.DistributionRequestDTO;
 import org.cognizant.disastermanagement.dto.response.DistributionResponseDTO;
 import org.cognizant.disastermanagement.service.DistributionService;
@@ -20,23 +21,29 @@ public class DistributionController {
     }
 
     // 1. GET: Fetch all distribution records
-    @GetMapping
+    @GetMapping("/getDistribution")
     public ResponseEntity<List<DistributionResponseDTO>> getDistributions() {
         List<DistributionResponseDTO> responseList = distributionService.getAllDistributions();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
+    @GetMapping("/getDistributionById/{id}")
+    public ResponseEntity<DistributionResponseDTO> getDistributionById(@PathVariable Integer id) {
+        DistributionResponseDTO response = distributionService.getDistributionById(id);
+        return ResponseEntity.ok(response);
+    }
+
     // 2. POST: Create a new record
-    @PostMapping
-    public ResponseEntity<DistributionResponseDTO> createDistribution(@RequestBody DistributionRequestDTO requestDto) {
+    @PostMapping("/createDistribution")
+    public ResponseEntity<DistributionResponseDTO> createDistribution(@RequestBody @Valid DistributionRequestDTO requestDto) {
         DistributionResponseDTO response = distributionService.saveDistribution(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // 3. PUT: Update an existing record
     // Added /{id} to the path so you can specify which one to update in the URL
-    @PutMapping("/{id}")
-    public ResponseEntity<DistributionResponseDTO> update(@PathVariable Integer id, @RequestBody DistributionRequestDTO request) {
+    @PutMapping("/updateDistribution/{id}")
+    public ResponseEntity<DistributionResponseDTO> updateDistribution(@PathVariable Integer id, @RequestBody DistributionRequestDTO request) {
         // We force the ID from the URL into the DTO to ensure consistency
         request.setDistributionId(id);
 
@@ -44,8 +51,8 @@ public class DistributionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id) {
+    @DeleteMapping("/deleteDistribution/{id}")
+    public ResponseEntity<String> deleteDistribution(@PathVariable Integer id) {
         distributionService.deleteDistribution(id);
         return ResponseEntity.ok("Record with ID " + id + " has been deleted successfully.");
     }
