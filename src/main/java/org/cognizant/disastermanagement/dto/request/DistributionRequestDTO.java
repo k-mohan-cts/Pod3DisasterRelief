@@ -31,7 +31,6 @@ public class DistributionRequestDTO {
 
     // Receiving status as a String is much more stable for JSON input
     @NotNull(message = "Please provide a valid status")
-    @Pattern(regexp = "PENDING | APPROVED| DISTRIBUTED| CANCELLED", message = "Status must be PENDING, APPROVED, DISTRIBUTED or CANCELLED")
     private String status;
 
     // Standard Getters and Setters

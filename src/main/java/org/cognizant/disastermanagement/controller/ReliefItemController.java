@@ -1,4 +1,5 @@
 package org.cognizant.disastermanagement.controller;
+import jakarta.validation.Valid;
 import org.cognizant.disastermanagement.dao.DistributionRepository;
 import org.cognizant.disastermanagement.dao.ReliefItemRepository;
 import org.cognizant.disastermanagement.dto.request.ReliefItemRequestDTO;

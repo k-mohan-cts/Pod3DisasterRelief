@@ -26,11 +26,11 @@ public class EmergencyReport {
     private String location;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "type", length = 50)
     private EmergencyType type;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING) // This is the crucial part!
+    @Column(name = "status", length = 50)
     private ReportStatus status;
 
     @Column
