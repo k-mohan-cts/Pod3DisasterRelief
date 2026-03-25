@@ -1,4 +1,5 @@
 package org.cognizant.disastermanagement.controller;
+import jakarta.validation.Valid;
 import org.cognizant.disastermanagement.dao.DistributionRepository;
 import org.cognizant.disastermanagement.dao.ReliefItemRepository;
 import org.cognizant.disastermanagement.dto.request.ReliefItemRequestDTO;
@@ -26,8 +27,14 @@ public class ReliefItemController {
         return reliefItemService.getAllReliefItem();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ReliefItemResponseDTO> getById(@PathVariable Integer id) {
+        ReliefItemResponseDTO response = reliefItemService.getReliefItemById(id);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
-    public ResponseEntity<ReliefItemResponseDTO> createReliefItem(@RequestBody ReliefItemRequestDTO reliefItemDto){
+    public ResponseEntity<ReliefItemResponseDTO> createReliefItem(@RequestBody @Valid ReliefItemRequestDTO reliefItemDto){
         return ResponseEntity.ok(reliefItemService.saveReliefItem(reliefItemDto));
     }
 

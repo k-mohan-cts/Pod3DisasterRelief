@@ -29,6 +29,15 @@ public class ReliefItemService {
                 .toList();
     }
 
+    public ReliefItemResponseDTO getReliefItemById(Integer id) {
+        // 1. Find the entity
+        ReliefItem item = reliefItemsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Relief Item not found with ID: " + id));
+
+        // 2. Manually map to DTO
+        return mapToResponseDTO(item);
+    }
+
     public ReliefItemResponseDTO saveReliefItem(ReliefItemRequestDTO dto){
         ReliefItem item = new ReliefItem();
         item.setType(dto.getType());
