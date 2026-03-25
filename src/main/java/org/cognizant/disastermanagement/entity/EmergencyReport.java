@@ -1,7 +1,6 @@
 package org.cognizant.disastermanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.EmergencyType;
@@ -33,24 +32,23 @@ public class EmergencyReport {
     private ReportStatus status;
 
     @Column
-    private Double latitude;      // ✅ Added
-
+    private Double latitude;
     @Column
-    private Double longitude;     // ✅ Added
+    private Double longitude;
 
     @Column(columnDefinition = "TEXT")
-    private String description;   // ✅ Added
+    private String description;
 
     @CreationTimestamp
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CitizenID")
-    @JsonBackReference
+
     private Citizen citizen;
 
     @OneToMany(mappedBy = "emergencyReport", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+
     private List<Incident> incidents = new ArrayList<>();
 
     public EmergencyReport() {}
