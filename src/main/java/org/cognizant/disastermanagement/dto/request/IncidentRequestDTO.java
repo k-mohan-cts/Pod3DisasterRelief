@@ -4,10 +4,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.IncidentStatus;
+
 @Data
 public class IncidentRequestDTO {
-
-
 
     @NotNull(message = "Report ID is required")
     private Integer reportId;
@@ -20,6 +19,4 @@ public class IncidentRequestDTO {
 
     @NotNull(message = "Status is required")
     private IncidentStatus status;
-
-    // Getters and Setters
 }

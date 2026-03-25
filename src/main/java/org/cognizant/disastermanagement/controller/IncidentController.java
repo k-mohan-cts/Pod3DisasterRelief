@@ -1,5 +1,6 @@
 package org.cognizant.disastermanagement.controller;
 
+import jakarta.validation.Valid;
 import org.cognizant.disastermanagement.dto.request.IncidentRequestDTO;
 import org.cognizant.disastermanagement.dto.request.AssignOfficerRequestDTO;
 import org.cognizant.disastermanagement.dto.request.IncidentStatusUpdateRequestDTO;
@@ -33,7 +34,7 @@ public class IncidentController {
 
     // GET INCIDENT BY ID
     @GetMapping("/{id}")
-    public IncidentResponseDTO getIncidentById(@PathVariable int id) {
+    public IncidentResponseDTO getIncidentById(@PathVariable @Valid int id) {
         return service.getIncidentById(id);
     }
 
@@ -54,4 +55,8 @@ public class IncidentController {
 
         return service.assignOfficer(id, requestDTO.getOfficerId());
     }
-}
+        @DeleteMapping("/{id}")
+        public String deleteIncident(@PathVariable @Valid int id) {
+            return service.deleteIncident(id);
+        }
+    }

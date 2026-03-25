@@ -1,12 +1,12 @@
 package org.cognizant.disastermanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.EmergencyType;
 import org.cognizant.disastermanagement.Enum.ReportStatus;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,41 +31,25 @@ public class EmergencyReport {
     @Column(nullable = false)
     private ReportStatus status;
 
+    @Column
+    private Double latitude;
+    @Column
+    private Double longitude;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @CreationTimestamp
     private LocalDateTime date;
 
-    // MANY reports → ONE citizen
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CitizenID")
-    @JsonBackReference
+
     private Citizen citizen;
 
-    // ONE report → MANY incidents
     @OneToMany(mappedBy = "emergencyReport", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+
     private List<Incident> incidents = new ArrayList<>();
 
     public EmergencyReport() {}
-
-    // GETTERS AND SETTERS
-//
-//    public int getReportId() { return reportId; }
-//    public void setReportId(int reportId) { this.reportId = reportId; }
-//
-//    public String getLocation() { return location; }
-//    public void setLocation(String location) { this.location = location; }
-//
-//    public EmergencyType getType() { return type; }
-//    public void setType(EmergencyType type) { this.type = type; }
-//
-//    public ReportStatus getStatus() { return status; }
-//    public void setStatus(ReportStatus status) { this.status = status; }
-//
-//    public LocalDateTime getDate() { return date; }
-//
-//    public Citizen getCitizen() { return citizen; }
-//    public void setCitizen(Citizen citizen) { this.citizen = citizen; }
-//
-//    public List<Incident> getIncidents() { return incidents; }
-//    public void setIncidents(List<Incident> incidents) { this.incidents = incidents; }
 }

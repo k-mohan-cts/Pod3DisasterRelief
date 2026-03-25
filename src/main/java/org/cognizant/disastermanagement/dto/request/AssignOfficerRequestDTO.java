@@ -5,17 +5,7 @@ import lombok.Data;
 
 @Data
 public class AssignOfficerRequestDTO {
+
     @NotNull(message = "Officer ID is required")
-   private Integer officerId;
-//    public Integer getOfficerId() {
-//        return officerId;
-//    }
-//
-//    public void setOfficerId(Integer officerId) {
-//        this.officerId = officerId;
-//    }
-
-
-
-    // Getter and Setter
+    private Integer officerId;
 }

@@ -1,9 +1,17 @@
 package org.cognizant.disastermanagement.service;
 
 import org.cognizant.disastermanagement.entity.Citizen;
+import org.cognizant.disastermanagement.entity.User;
 import org.cognizant.disastermanagement.dao.CitizenRepository;
+import org.cognizant.disastermanagement.dao.UserRepository;
+import org.cognizant.disastermanagement.dto.request.CitizenRequestDTO;
+import org.cognizant.disastermanagement.Enum.Role;
+import org.cognizant.disastermanagement.Enum.UserStatus;
+import org.cognizant.disastermanagement.Enum.CitizenStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -12,7 +20,35 @@ public class CitizenService {
     @Autowired
     private CitizenRepository citizenRepository;
 
-    public Citizen createCitizen(Citizen citizen) {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public Citizen createCitizenWithUser(CitizenRequestDTO requestDTO) {
+        // STEP 1: Create User Account with Default Status
+        User user = new User();
+        user.setName(requestDTO.getName());
+        user.setEmail(requestDTO.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(requestDTO.getPassword()));
+        user.setPhone(requestDTO.getPhone()); // Using phone from DTO
+        user.setRole(Role.CITIZEN);
+        user.setStatus(UserStatus.INACTIVE); // Default hardcoded
+
+        User savedUser = userRepository.save(user);
+
+        // STEP 2: Create Citizen Profile linked to User
+        Citizen citizen = new Citizen();
+        citizen.setUser(savedUser);
+        citizen.setName(requestDTO.getName());
+        citizen.setDob(requestDTO.getDob());
+        citizen.setGender(requestDTO.getGender());
+        citizen.setAddress(requestDTO.getAddress());
+        citizen.setContactInfo(requestDTO.getPhone()); // Mapping same phone here
+        citizen.setStatus(CitizenStatus.PENDING);    // Default hardcoded
+
         return citizenRepository.save(citizen);
     }
 
@@ -27,10 +63,9 @@ public class CitizenService {
     public Citizen updateCitizen(int id, Citizen citizenDetails) {
         Citizen existing = citizenRepository.findById(id).orElse(null);
         if (existing != null) {
-            existing.setName(citizenDetails.getName());
             existing.setAddress(citizenDetails.getAddress());
-            existing.setStatus(citizenDetails.getStatus());
             existing.setContactInfo(citizenDetails.getContactInfo());
+            existing.setStatus(citizenDetails.getStatus());
             return citizenRepository.save(existing);
         }
         return null;

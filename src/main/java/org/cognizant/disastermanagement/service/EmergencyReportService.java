@@ -24,29 +24,27 @@ public class EmergencyReportService {
         this.citizenRepo = citizenRepo;
     }
 
-    // --------------------------------------
-    // CREATE EMERGENCY REPORT
-    // --------------------------------------
+    // CREATE
     public EmergencyReportResponseDTO createReport(EmergencyReportRequestDTO req) {
 
         Citizen citizen = citizenRepo.findById(req.getCitizenId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Citizen not found with ID: " + req.getCitizenId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found with ID: " + req.getCitizenId()));
 
         EmergencyReport report = new EmergencyReport();
         report.setCitizen(citizen);
         report.setLocation(req.getLocation());
         report.setType(req.getType());
         report.setStatus(req.getStatus());
+        report.setLatitude(req.getLatitude());
+        report.setLongitude(req.getLongitude());
+        report.setDescription(req.getDescription());
 
         EmergencyReport saved = reportRepo.save(report);
 
         return toResponseDTO(saved);
     }
 
-    // --------------------------------------
-    // GET ALL REPORTS
-    // --------------------------------------
+    // GET ALL
     public List<EmergencyReportResponseDTO> getAllReports() {
         return reportRepo.findAll()
                 .stream()
@@ -54,24 +52,18 @@ public class EmergencyReportService {
                 .collect(Collectors.toList());
     }
 
-    // --------------------------------------
-    // GET REPORT BY ID
-    // --------------------------------------
+    // GET BY ID
     public EmergencyReportResponseDTO getReportById(int id) {
         EmergencyReport report = reportRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Report not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Report not found with ID: " + id));
         return toResponseDTO(report);
     }
 
-    // --------------------------------------
-    // GET REPORT + CITIZEN DETAILS
-    // --------------------------------------
+    // GET WITH CITIZEN DETAILS
     public EmergencyReportDetailsResponseDTO getReportWithCitizen(int id) {
 
         EmergencyReport report = reportRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Report not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Report not found with ID: " + id));
 
         EmergencyReportDetailsResponseDTO details = new EmergencyReportDetailsResponseDTO();
         details.setReport(toResponseDTO(report));
@@ -81,23 +73,17 @@ public class EmergencyReportService {
         return details;
     }
 
-    // --------------------------------------
-    // DELETE REPORT
-    // --------------------------------------
+    // DELETE
     public String deleteReport(int id) {
 
         EmergencyReport report = reportRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Report not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Report not found with ID: " + id));
 
         reportRepo.delete(report);
-
         return "Emergency Report deleted successfully with ID: " + id;
     }
 
-    // --------------------------------------
     // ENTITY → RESPONSE DTO
-    // --------------------------------------
     private EmergencyReportResponseDTO toResponseDTO(EmergencyReport entity) {
 
         EmergencyReportResponseDTO dto = new EmergencyReportResponseDTO();
@@ -108,6 +94,10 @@ public class EmergencyReportService {
         dto.setType(entity.getType());
         dto.setStatus(entity.getStatus());
         dto.setDate(entity.getDate());
+
+        dto.setLatitude(entity.getLatitude());
+        dto.setLongitude(entity.getLongitude());
+        dto.setDescription(entity.getDescription());
 
         return dto;
     }
