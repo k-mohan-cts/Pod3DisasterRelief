@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.stream.Stream;
 
 public enum Role {
-    CITIZEN, OFFICER, MANAGER , ADMIN, COMPLIANCE, AUDITOR;
+
+    CITIZEN, OFFICER, MANAGER, ADMIN, COMPLIANCE, AUDITOR;
 
     @JsonCreator
     public static Role fromString(String value) {
