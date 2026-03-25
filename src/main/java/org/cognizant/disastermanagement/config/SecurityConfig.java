@@ -31,11 +31,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
-                                .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
-                                .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
+                                .requestMatchers("/api/citizens/createCitizen", "/api/citizens/update/{id}", "/api/documents/upload","/api/documents/delete/{id}", "/api/users/login").hasRole("CITIZEN")
+                                .requestMatchers("/api/logs/GetAllLogs", "/api/logs/CreateLog").hasRole("AUDITOR")
                                 .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
-                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
-                                .requestMatchers("/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
+                                .requestMatchers("/api/citizens/getCitizenById/{id}", "/api/citizens/getAllCitizens", "/api/citizens/delete/{id}", "/api/documents/getDocById/{id}").hasRole("OFFICER")
+                                .requestMatchers("/api/users/getByUserId/{id}", "/api/users/getAllUsers","/api/users/update/{id}", "/api/users/delete/{id}").hasRole("MANAGER")
                                 .requestMatchers("/api/users/**").hasRole("ADMIN")
                                 .anyRequest().authenticated() // LOCK EVERYTHING ELSE
                 )
