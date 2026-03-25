@@ -5,13 +5,16 @@ import org.cognizant.disastermanagement.entity.CitizenDocument;
 import org.cognizant.disastermanagement.service.CitizenDocumentService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/documents")
+@Validated  // ✅ REQUIRED FOR PATH VARIABLE VALIDATION
 public class CitizenDocumentController {
 
     private final CitizenDocumentService documentService;
@@ -29,15 +32,21 @@ public class CitizenDocumentController {
         return new ResponseEntity<>(savedDoc, HttpStatus.CREATED);
     }
 
-    // ✅ GET BY ID
+    // ✅ GET BY ID (ID MUST BE POSITIVE)
     @GetMapping("/getDocById/{id}")
-    public ResponseEntity<CitizenDocument> getDocumentById(@PathVariable int id) {
+    public ResponseEntity<CitizenDocument> getDocumentById(
+            @Positive(message = "Document ID must be greater than zero")
+            @PathVariable int id) {
+
         return ResponseEntity.ok(documentService.getDocumentById(id));
     }
 
-    // ✅ DELETE
+    // ✅ DELETE (ID MUST BE POSITIVE)
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteDocument(@PathVariable int id) {
+    public ResponseEntity<String> deleteDocument(
+            @Positive(message = "Document ID must be greater than zero")
+            @PathVariable int id) {
+
         documentService.deleteDocument(id);
         return ResponseEntity.ok("Document deleted successfully");
     }
