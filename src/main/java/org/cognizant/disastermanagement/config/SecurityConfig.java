@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
+                                .requestMatchers("/api/citizens/createCitizen", "/api/citizens/update/{id}", "/api/documents/upload","/api/documents/delete/{id}", "/api/users/login").hasRole("CITIZEN")
+                                .requestMatchers("/api/logs/GetAllLogs", "/api/logs/CreateLog").hasRole("AUDITOR")
                                 .requestMatchers( "/api/citizens/update/{id}","/api/documents/upload","/api/reports/**","api/documents/delete/{id}", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
                                 .requestMatchers("/api/reports/createreport","/api/reports/getreportwithcitizendetails/{id}/details", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
                                 .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
@@ -39,6 +41,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/api/resources/**","/getReliefItem/getReliefItemById/{id}","/Distributions/getDistributionById/{id}","/Shelters/getSheltersById{id}").hasRole("CITIZEN")
                                 .requestMatchers("/api/audits/**", "/api/audit-logs/**","/ReliefItems/getReliefItem","/getReliefItem/getReliefItemById/{id}","/Distributions/getDistribution","/Distributions/getDistributionById/{id}","/Shelters/getShelters","/Shelters/getSheltersById{id}","/Shelters/getSheltersById{id}").hasRole("AUDITOR")
                                 .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
+                                .requestMatchers("/api/citizens/getCitizenById/{id}", "/api/citizens/getAllCitizens", "/api/citizens/delete/{id}", "/api/documents/getDocById/{id}").hasRole("OFFICER")
+                                .requestMatchers("/api/users/getByUserId/{id}", "/api/users/getAllUsers","/api/users/update/{id}", "/api/users/delete/{id}").hasRole("MANAGER")
                                 .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
                                 .requestMatchers("/api/programs/**","/api/resources/**","/api/reports/getallreports","ReliefItems/getallrelief").hasRole("MANAGER")
                                 .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**,").hasRole("OFFICER")
