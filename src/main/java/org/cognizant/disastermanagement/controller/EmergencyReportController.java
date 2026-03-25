@@ -25,7 +25,7 @@ public class EmergencyReportController {
     }
 
     // GET ALL REPORTS
-    @GetMapping
+    @GetMapping("/getallreports")
     public List<EmergencyReportResponseDTO> getAllReports() {
         return service.getAllReports();
     }

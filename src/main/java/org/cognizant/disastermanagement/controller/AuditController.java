@@ -17,22 +17,22 @@ public class AuditController {
     @Autowired
     private AuditService auditService;
 
-    @PostMapping
+    @PostMapping("/createaudit")
     public ResponseEntity<AuditResponseDTO> create(@Valid @RequestBody AuditRequestDTO request) {
         return ResponseEntity.ok(auditService.createAudit(request));
     }
 
-    @GetMapping
+    @GetMapping("/getAllAudit")
     public ResponseEntity<List<AuditResponseDTO>> getAll() {
         return ResponseEntity.ok(auditService.getAllAudits());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateAuditById/{id}")
     public ResponseEntity<AuditResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody AuditRequestDTO request) {
         return ResponseEntity.ok(auditService.updateAudit(id, request));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteAuditById/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
         auditService.deleteAudit(id);
         return ResponseEntity.ok("Audit deleted successfully");

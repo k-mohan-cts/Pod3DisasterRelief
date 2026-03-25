@@ -17,17 +17,17 @@ public class ComplianceRecordController {
     @Autowired
     private ComplianceRecordService service;
 
-    @PostMapping
+    @PostMapping("/createComplianceRecord")
     public ResponseEntity<ComplianceRecordResponseDTO> create(@Valid @RequestBody ComplianceRecordRequestDTO request) {
         return ResponseEntity.ok(service.createRecord(request));
     }
 
-    @GetMapping
+    @GetMapping("/getAllComplianceRecord")
     public ResponseEntity<List<ComplianceRecordResponseDTO>> getAll() {
         return ResponseEntity.ok(service.getAllRecords());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/getComplianceRecord/{id}")
     public ResponseEntity<ComplianceRecordResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody ComplianceRecordRequestDTO request) {
         return ResponseEntity.ok(service.updateRecord(id, request));
     }

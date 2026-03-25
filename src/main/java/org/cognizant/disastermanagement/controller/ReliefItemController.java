@@ -21,7 +21,7 @@ public class ReliefItemController {
         this.reliefItemService = reliefItemService;
     }
 
-    @GetMapping
+    @GetMapping("/getallrelief")
     public List<ReliefItemResponseDTO> getReliefItem(){
         return reliefItemService.getAllReliefItem();
     }
