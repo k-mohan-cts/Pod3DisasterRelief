@@ -2,6 +2,7 @@ package org.cognizant.disastermanagement.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.EmergencyType;
 import org.cognizant.disastermanagement.Enum.ReportStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
+
 @Table(name = "EmergencyReport")
 public class EmergencyReport {
 

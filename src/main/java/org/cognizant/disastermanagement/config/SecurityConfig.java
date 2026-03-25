@@ -31,11 +31,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
-                                .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
+                                .requestMatchers("/api/reports/createreport","/api/reports/getreportwithcitizendetails/{id}/details", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
                                 .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
                                 .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
-                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
-                                .requestMatchers("/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
+                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**,").hasRole("OFFICER")
+                                .requestMatchers("/api/reports/getallreport","/api/reports/getreportbyid/{id}","/api/incidents/**","/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
                                 .requestMatchers("/api/users/**").hasRole("ADMIN")
                                 .anyRequest().authenticated() // LOCK EVERYTHING ELSE
                 )

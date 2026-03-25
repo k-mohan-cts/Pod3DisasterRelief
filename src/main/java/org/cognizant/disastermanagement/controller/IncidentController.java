@@ -21,25 +21,25 @@ public class IncidentController {
     }
 
     // CREATE INCIDENT
-    @PostMapping
+    @PostMapping("/createincident")
     public IncidentResponseDTO createIncident(@RequestBody IncidentRequestDTO requestDTO) {
         return service.createIncident(requestDTO);
     }
 
     // GET ALL INCIDENTS
-    @GetMapping
+    @GetMapping("/getallincident")
     public List<IncidentResponseDTO> getAllIncidents() {
         return service.getAllIncidents();
     }
 
     // GET INCIDENT BY ID
-    @GetMapping("/{id}")
+    @GetMapping("/getincidentbyid/{id}")
     public IncidentResponseDTO getIncidentById(@PathVariable @Valid int id) {
         return service.getIncidentById(id);
     }
 
     // UPDATE INCIDENT STATUS
-    @PutMapping("/{id}/status")
+    @PutMapping("updateincident/{id}/status")
     public IncidentResponseDTO updateStatus(
             @PathVariable int id,
             @RequestBody IncidentStatusUpdateRequestDTO statusRequest) {
@@ -48,14 +48,14 @@ public class IncidentController {
     }
 
     // ASSIGN OFFICER TO INCIDENT
-    @PutMapping("/{id}/assign-officer")
+    @PutMapping("/assignofficer/{id}/assign-officer")
     public IncidentResponseDTO assignOfficer(
             @PathVariable int id,
             @RequestBody AssignOfficerRequestDTO requestDTO) {
 
         return service.assignOfficer(id, requestDTO.getOfficerId());
     }
-        @DeleteMapping("/{id}")
+        @DeleteMapping("/delete/{id}")
         public String deleteIncident(@PathVariable @Valid int id) {
             return service.deleteIncident(id);
         }
