@@ -28,7 +28,7 @@ public class ReliefItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReliefItemResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<ReliefItemResponseDTO> getReliefItemById(@PathVariable Integer id) {
         ReliefItemResponseDTO response = reliefItemService.getReliefItemById(id);
         return ResponseEntity.ok(response);
     }
@@ -51,7 +51,7 @@ public class ReliefItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") int id) {
+    public ResponseEntity<String> deleteReliefItem(@PathVariable("id") int id) {
         try {
             reliefItemService.deleteReliefItem(id);
             return ResponseEntity.ok("Relief Item with ID " + id + " deleted successfully.");

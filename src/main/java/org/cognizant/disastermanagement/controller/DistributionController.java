@@ -28,7 +28,7 @@ public class DistributionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DistributionResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<DistributionResponseDTO> getDistributionById(@PathVariable Integer id) {
         DistributionResponseDTO response = distributionService.getDistributionById(id);
         return ResponseEntity.ok(response);
     }
@@ -43,7 +43,7 @@ public class DistributionController {
     // 3. PUT: Update an existing record
     // Added /{id} to the path so you can specify which one to update in the URL
     @PutMapping("/{id}")
-    public ResponseEntity<DistributionResponseDTO> update(@PathVariable Integer id, @RequestBody DistributionRequestDTO request) {
+    public ResponseEntity<DistributionResponseDTO> updateDistribution(@PathVariable Integer id, @RequestBody DistributionRequestDTO request) {
         // We force the ID from the URL into the DTO to ensure consistency
         request.setDistributionId(id);
 
@@ -52,7 +52,7 @@ public class DistributionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteDistribution(@PathVariable Integer id) {
         distributionService.deleteDistribution(id);
         return ResponseEntity.ok("Record with ID " + id + " has been deleted successfully.");
     }
