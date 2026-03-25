@@ -1,12 +1,14 @@
 package org.cognizant.disastermanagement.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.cognizant.disastermanagement.dto.request.RecoveryProgramRequestDTO;
 import org.cognizant.disastermanagement.dto.response.RecoveryProgramResponseDTO;
 import org.cognizant.disastermanagement.dto.response.ResourceResponseDTO;
 import org.cognizant.disastermanagement.entity.RecoveryProgram;
 import org.cognizant.disastermanagement.service.RecoveryService;
 import org.cognizant.disastermanagement.Enum.RecoveryStatus;
+//import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/programs")
+@AllArgsConstructor
 public class RecoveryController {
 
-    @Autowired
-    private RecoveryService recoveryService;
+    private final RecoveryService recoveryService;
+    //private final ModelMapper modelMapper;
 
     @PostMapping("/create")
     public ResponseEntity<RecoveryProgramResponseDTO> createProgram(@Valid @RequestBody RecoveryProgramRequestDTO dto) {
-        RecoveryProgram entity = toEntity(dto);
+        RecoveryProgram entity = toEntity(dto);//modelMapper.map(dto, RecoveryProgram.class);;
         recoveryService.createProgram(entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDTO(entity));
     }

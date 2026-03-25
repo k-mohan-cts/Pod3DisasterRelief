@@ -1,6 +1,5 @@
 package org.cognizant.disastermanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.cognizant.disastermanagement.Enum.IncidentStatus;
@@ -30,7 +29,7 @@ public class Incident {
     // MANY incidents → ONE emergency report
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ReportID")
-    @JsonBackReference
+
     private EmergencyReport emergencyReport;
 
     // MANY incidents → ONE officer (User role)
@@ -41,7 +40,6 @@ public class Incident {
     public Incident() {}
 
     // GETTERS AND SETTERS
-//
 //    public int getIncidentId() { return incidentId; }
 //    public void setIncidentId(int incidentId) { this.incidentId = incidentId; }
 //

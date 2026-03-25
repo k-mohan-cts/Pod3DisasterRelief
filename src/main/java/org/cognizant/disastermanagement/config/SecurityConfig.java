@@ -33,6 +33,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
                                 .requestMatchers( "/api/citizens/update/{id}","/api/documents/upload","/api/reports/**","api/documents/delete/{id}", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
                                 .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
+                                .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/ReliefItems/**").hasRole("CITIZEN")
+                                .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasAnyRole("AUDITOR","MANAGER")
                                 .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
                                 .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
                                 .requestMatchers("/api/programs/**","/api/resources/**","/api/reports/getallreports","ReliefItems/getallrelief").hasRole("MANAGER")

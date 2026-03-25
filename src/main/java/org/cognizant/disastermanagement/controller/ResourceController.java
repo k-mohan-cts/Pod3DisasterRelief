@@ -6,6 +6,7 @@ import org.cognizant.disastermanagement.dto.request.ResourceRequestDTO;
 import org.cognizant.disastermanagement.dto.response.ResourceResponseDTO;
 import org.cognizant.disastermanagement.entity.Resource;
 import org.cognizant.disastermanagement.service.ResourceService;
+//import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class ResourceController {
 
     @Autowired
     private ResourceService resourceService;
-
+   /* @Autowired
+ private ModelMapper modelMapper;*/
     @PostMapping("/add")
     public ResponseEntity<ResourceResponseDTO> addResource(@Valid @RequestBody ResourceRequestDTO dto) {
         Resource entity = toEntity(dto);

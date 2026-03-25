@@ -6,15 +6,22 @@ import lombok.AllArgsConstructor;
 import org.cognizant.disastermanagement.Enum.ResourceType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Pattern;
 
-@Data                // Generates Getters, Setters, toString, equals, and hashCode
-@NoArgsConstructor   // Generates the default constructor
-@AllArgsConstructor  // Generates constructor with all fields
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResourceRequestDTO {
 
     private int programId;
 
     @NotBlank(message = "Resource name is required")
+    /* Regex: ^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$
+       - (?=.*[a-zA-Z]) ensures at least one letter exists.
+       - [a-zA-Z0-9\s]* allows letters, numbers, and spaces.
+    */
+    @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z0-9\\s]*$",
+            message = "Resource name must contain letters (e.g., 'N95 Masks'), not just numbers.")
     private String name;
 
     private ResourceType type;
@@ -22,5 +29,7 @@ public class ResourceRequestDTO {
     @Positive(message = "Quantity must be greater than zero")
     private double quantity;
 
+    @NotBlank(message = "Unit is required")
+    @Pattern(regexp = "^[a-zA-Z\\s]*$", message = "Unit must be letters only (e.g., Kg, Liters, Boxes)")
     private String unit;
 }
