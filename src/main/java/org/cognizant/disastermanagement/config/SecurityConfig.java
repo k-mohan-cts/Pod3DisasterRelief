@@ -31,11 +31,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
-                                .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
-                                .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
+                                .requestMatchers("/api/citizens/**", "/api/reports/**", "/api/compliance-records/**", "/api/resources/**","/getReliefItem/getReliefItemById/{id}","/Distributions/getDistributionById/{id}","/Shelters/getSheltersById{id}").hasRole("CITIZEN")
+                                .requestMatchers("/api/audits/**", "/api/audit-logs/**","/ReliefItems/getReliefItem","/getReliefItem/getReliefItemById/{id}","/Distributions/getDistribution","/Distributions/getDistributionById/{id}","/Shelters/getShelters","/Shelters/getSheltersById{id}","/Shelters/getSheltersById{id}").hasRole("AUDITOR")
                                 .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
-                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
-                                .requestMatchers("/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
+                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**","/ReliefItems/getReliefItem","/getReliefItem/getReliefItemById/{id}","/ReliefItems/updateReliefItem/{id}","/Distributions/getDistributionById/{id}","/Distributions/updateDistribution/{id}","/Shelters/updateShelter").hasRole("OFFICER")
+                                .requestMatchers("/api/programs/**", "/api/budgets/**","/ReliefItems/getReliefItem","/getReliefItem/getReliefItemById/{id}","/ReliefItems/createReliefItem","/ReliefItems/updateReliefItem/{id}","/ReliefItems/deleteReliefItem/{id}","/Distributions/getDistribution","/Distributions/getDistributionById/{id}","/Distributions/createDistribution","/Distributions/updateDistribution/{id}","/Distributions/deleteDistribution/{id}","/Shelters/getShelters","/Shelters/deleteShelter").hasRole("MANAGER")
                                 .requestMatchers("/api/users/**").hasRole("ADMIN")
                                 .anyRequest().authenticated() // LOCK EVERYTHING ELSE
                 )
