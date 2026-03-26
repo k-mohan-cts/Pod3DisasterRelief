@@ -30,14 +30,25 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/users/login", "/api/users/createUser","/api/citizens/createCitizen").permitAll() // ALLOW THESE WITHOUT LOGIN
-                                .requestMatchers("/api/reports/createreport","/api/reports/getreportwithcitizendetails/{id}/details", "/api/compliance-records/**", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
-                                .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
-                                .requestMatchers("/api/compliance-records/**").hasRole("COMPLIANCE")
-                                .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**,").hasRole("OFFICER")
-                                .requestMatchers("/api/reports/getallreport","/api/reports/getreportbyid/{id}","/api/incidents/**","/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
-                                .requestMatchers("/api/users/**").hasRole("ADMIN")
-                                .anyRequest().authenticated() // LOCK EVERYTHING ELSE
+                        .requestMatchers("/api/users/login", "/api/users/createUser", "/api/citizens/createCitizen").permitAll()
+
+                        // Role: CITIZEN
+                        .requestMatchers("/api/reports/createreport", "/api/reports/getreportwithcitizendetails/{id}/details", "/ReliefItems/**", "/api/resources/**").hasRole("CITIZEN")
+
+                        // Role: AUDITOR
+                        .requestMatchers("/api/audits/**", "/api/audit-logs/**").hasRole("AUDITOR")
+
+                        // FIX: Combined duplicate path for COMPLIANCE and CITIZEN
+                        .requestMatchers("/api/compliance-records/**").hasAnyRole("COMPLIANCE", "CITIZEN")
+
+                        // Role: OFFICER (Fixed trailing comma inside string)
+                        .requestMatchers("/api/incidents/**", "/api/shelters/**", "/api/recoveries/**", "/api/distributions/**").hasRole("OFFICER")
+
+                        // Role: MANAGER (Removed duplicate /api/incidents/** if it belongs to OFFICER, or kept if shared)
+                        .requestMatchers("/api/reports/getallreport","/api/incidents/**","/api/reports/getreportbyid/{id}", "/api/programs/**", "/api/budgets/**").hasRole("MANAGER")
+
+                        // Role: ADMIN
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
                 )
 
                 .httpBasic(Customizer.withDefaults())
