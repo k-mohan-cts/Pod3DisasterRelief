@@ -21,6 +21,7 @@ public class DistributionService {
         this.distributionRepository = distributionRepository;
     }
 
+
     public List<DistributionResponseDTO> getAllDistributions() {
         return distributionRepository.findAll().stream()
                 .map(this::mapToResponseDTO)

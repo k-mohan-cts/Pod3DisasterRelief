@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-//@RequestMapping("/ReliefItems")
+@RequestMapping("/ReliefItems")
 public class ReliefItemController {
 
     private final ReliefItemService reliefItemService;
@@ -22,23 +22,23 @@ public class ReliefItemController {
         this.reliefItemService = reliefItemService;
     }
 
-    @GetMapping("/ReliefItems/getReliefItem")
+    @GetMapping("/getReliefItem")
     public List<ReliefItemResponseDTO> getReliefItem(){
         return reliefItemService.getAllReliefItem();
     }
 
-    @GetMapping("/ReliefItems/getReliefItemById/{id}")
+    @GetMapping("/getReliefItemById/{id}")
     public ResponseEntity<ReliefItemResponseDTO> getReliefItemById(@PathVariable Integer id) {
         ReliefItemResponseDTO response = reliefItemService.getReliefItemById(id);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/ReliefItems/createReliefItem")
+    @PostMapping("/createReliefItem")
     public ResponseEntity<ReliefItemResponseDTO> createReliefItem(@RequestBody @Valid ReliefItemRequestDTO reliefItemDto){
         return ResponseEntity.ok(reliefItemService.saveReliefItem(reliefItemDto));
     }
 
-    @PutMapping("/ReliefItems/updateReliefItem/{id}")
+    @PutMapping("/updateReliefItem/{id}")
     public ResponseEntity<ReliefItemResponseDTO> updateReliefItem(
             @PathVariable Integer id,
             @RequestBody ReliefItemRequestDTO reliefItemDto
@@ -50,7 +50,7 @@ public class ReliefItemController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/ReliefItems/deleteReliefItem/{id}")
+    @DeleteMapping("/deleteReliefItem/{id}")
     public ResponseEntity<String> deleteReliefItem(@PathVariable("id") int id) {
         try {
             reliefItemService.deleteReliefItem(id);

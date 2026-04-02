@@ -23,6 +23,12 @@ public class ReliefItemService {
         this.reliefItemsRepository = reliefItemsRepository;
     }
 
+    public ReliefItemService(ReliefItemRepository reliefItemsRepository,
+                             DistributionRepository distributionRepository) {
+        this.reliefItemsRepository = reliefItemsRepository;
+        this.distributionRepository = distributionRepository;
+    }
+
     public List<ReliefItemResponseDTO> getAllReliefItem(){
         return reliefItemsRepository.findAll().stream()
                 .map(this::mapToResponseDTO)

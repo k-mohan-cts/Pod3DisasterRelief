@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 @Data                       // Generates getters, setters, toString, etc.
 @NoArgsConstructor          // Required by JPA
 @AllArgsConstructor// Required by @Builder
-@Getter
-@Setter
 @Builder(toBuilder = true)
 public class Distribution {
 
