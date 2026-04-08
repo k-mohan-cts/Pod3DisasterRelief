@@ -27,7 +27,7 @@ public class ComplianceRecordController {
         return ResponseEntity.ok(service.getAllRecords());
     }
 
-    @PutMapping("/getComplianceRecord/{id}")
+    @PutMapping("/updateComplianceRecord/{id}")
     public ResponseEntity<ComplianceRecordResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody ComplianceRecordRequestDTO request) {
         return ResponseEntity.ok(service.updateRecord(id, request));
     }

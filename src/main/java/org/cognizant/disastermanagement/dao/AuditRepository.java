@@ -4,7 +4,6 @@ import org.cognizant.disastermanagement.entity.Audit;
 import org.cognizant.disastermanagement.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
